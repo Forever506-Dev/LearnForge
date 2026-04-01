@@ -52,6 +52,7 @@ ENV APP="Windows 11 Enterprise VM" \
     DISK_IO="threads" \
     DISK_CACHE="writeback" \
     ALLOCATE="N" \
+    LOGO="N" \
     USERNAME="User" \
     PASSWORD="" \
     LANGUAGE="en-US" \

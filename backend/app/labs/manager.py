@@ -163,9 +163,9 @@ KVM_QEMU_RUNTIME_PROFILE: Final[RuntimeProfile] = RuntimeProfile(
 
 WINDOWS_KVM_RUNTIME_PROFILE: Final[RuntimeProfile] = RuntimeProfile(
     name="kvm-qemu-windows",
-    mem_limit="18g",
+    mem_limit="8g",
     shm_size="512m",
-    cpu_limit=8.0,
+    cpu_limit=2.0,
     stop_timeout_seconds=120,
     readiness_timeout_seconds=20 * 60,
     provisioning_timeout_seconds=30 * 60,
@@ -184,10 +184,11 @@ PARROT_VM_RUNTIME_ENV: Final[tuple[tuple[str, str], ...]] = (
 )
 
 WINDOWS_RUNTIME_ENV: Final[tuple[tuple[str, str], ...]] = (
-    ("RAM_SIZE", "16G"),
-    ("CPU_CORES", "8"),
+    ("RAM_SIZE", "6G"),
+    ("CPU_CORES", "2"),
     ("DNS_SERVER", "8.8.8.8"),
     ("ADAPTER", "e1000"),
+    ("LOGO", "N"),
 )
 
 RUNTIME_PROFILE_OVERRIDES: Final[tuple[RuntimeProfileOverride, ...]] = (
