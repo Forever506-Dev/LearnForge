@@ -1,0 +1,256 @@
+{
+  "title": "React & TypeScript",
+  "slug": "react-typescript",
+  "description": "Master React with TypeScript — component typing, hooks, generics, utility types, and real-world patterns for production-ready applications.",
+  "category": "frontend",
+  "difficulty": "medium",
+  "icon": "⚛️",
+  "language_key": "typescript",
+  "modules": [
+    {
+      "title": "TypeScript Fundamentals",
+      "slug": "ts-fundamentals",
+      "description": "Type inference, interfaces vs type aliases, and generics.",
+      "sections": [
+        {
+          "title": "Type Inference & Reassignment",
+          "content_type": "quiz",
+          "code_snippet": "let score = 100;\nscore = \"high\";",
+          "choices": {
+            "A": "score becomes \"high\" at runtime",
+            "B": "TypeError thrown at runtime",
+            "C": "Compile-time error — 'string' is not assignable to type 'number'",
+            "D": "score becomes NaN"
+          },
+          "answer": "C",
+          "explanation": "TypeScript infers `score` as `number` from its initializer `100`. Attempting to assign a `string` is caught at compile time — not at runtime — making bugs impossible to ship.",
+          "points_value": 10
+        },
+        {
+          "title": "Interface vs Type — Declaration Merging",
+          "content_type": "quiz",
+          "body_markdown": "Which statement is **true** about `interface` vs `type` in TypeScript?",
+          "choices": {
+            "A": "Only `type` can describe function signatures",
+            "B": "`interface` supports declaration merging; re-declaring the same `type` alias is an error",
+            "C": "`type` can be implemented by a class but `interface` cannot",
+            "D": "They are completely interchangeable with no differences"
+          },
+          "answer": "B",
+          "explanation": "Declaration merging lets you declare the same `interface` name multiple times and TypeScript merges the definitions. This is used by libraries to let consumers augment types. `type` aliases cannot be redeclared.",
+          "points_value": 10
+        },
+        {
+          "title": "Generics — Explicit Type Argument",
+          "content_type": "quiz",
+          "code_snippet": "function identity<T>(arg: T): T {\n  return arg;\n}\n\nconst result = identity<string>(42);",
+          "choices": {
+            "A": "Returns 42 cast to string",
+            "B": "Returns \"42\"",
+            "C": "Compile-time error — Argument of type 'number' is not assignable to parameter of type 'string'",
+            "D": "Returns undefined"
+          },
+          "answer": "C",
+          "explanation": "We explicitly supply `T = string`, so TypeScript expects a `string` argument. Passing `42` (a `number`) is a compile-time type mismatch. Omitting `<string>` would let TypeScript infer `T = number` and compile fine.",
+          "points_value": 15
+        }
+      ]
+    },
+    {
+      "title": "Advanced TypeScript Types",
+      "slug": "ts-advanced-types",
+      "description": "Union types, type narrowing, keyof, and utility types.",
+      "sections": [
+        {
+          "title": "Union Type Narrowing",
+          "content_type": "quiz",
+          "code_snippet": "function format(val: string | number): string {\n  if (typeof val === 'number') {\n    return val.toFixed(2);\n  }\n  return val.toUpperCase();\n}\n\nconsole.log(format(3.14159));",
+          "choices": {
+            "A": "\"3.14\"",
+            "B": "\"3.14159\"",
+            "C": "\"3.14159.00\"",
+            "D": "Type error — cannot call toFixed on a union type"
+          },
+          "answer": "A",
+          "explanation": "Inside the `typeof val === 'number'` guard, TypeScript narrows `val` to `number`. `(3.14159).toFixed(2)` returns the string `\"3.14\"`. Outside the guard, `val` is narrowed to `string`.",
+          "points_value": 15
+        },
+        {
+          "title": "The keyof Operator",
+          "content_type": "quiz",
+          "code_snippet": "interface User { id: number; name: string; email: string; }\ntype UserKey = keyof User;\n\nconst key: UserKey = \"age\";",
+          "choices": {
+            "A": "Compiles fine — 'age' is a valid string",
+            "B": "Type error — 'age' is not assignable to type '\"id\" | \"name\" | \"email\"'",
+            "C": "Runtime ReferenceError",
+            "D": "key is assigned undefined"
+          },
+          "answer": "B",
+          "explanation": "`keyof User` produces the union literal `'id' | 'name' | 'email'`. Assigning `'age'` — not in that union — is a compile-time error. Use `keyof` with generics to write safe property-access helpers like `function get<T, K extends keyof T>(obj: T, key: K): T[K]`.",
+          "points_value": 15
+        },
+        {
+          "title": "Partial & Readonly Utility Types",
+          "content_type": "quiz",
+          "code_snippet": "interface Config { host: string; port: number; }\n\nconst c: Readonly<Partial<Config>> = { host: 'localhost' };\nc.host = 'production';",
+          "choices": {
+            "A": "c.host becomes 'production'",
+            "B": "Type error — cannot assign to 'host' because it is a read-only property",
+            "C": "Runtime TypeError",
+            "D": "Valid — Partial overrides Readonly"
+          },
+          "answer": "B",
+          "explanation": "`Partial<Config>` makes all fields optional (so `{ host: 'localhost' }` is valid). `Readonly<...>` then makes all fields immutable. Any mutation attempt is a compile-time error. The two utility types compose independently.",
+          "points_value": 15
+        }
+      ]
+    },
+    {
+      "title": "React Component Typing",
+      "slug": "react-component-typing",
+      "description": "Typing props, events, and refs in React with TypeScript.",
+      "sections": [
+        {
+          "title": "React.FC<Props> — What Does It Give You?",
+          "content_type": "quiz",
+          "code_snippet": "type Props = { label: string; count: number };\n\nconst Badge: React.FC<Props> = ({ label, count }) => (\n  <span>{label}: {count}</span>\n);",
+          "choices": {
+            "A": "React.FC<Props> provides automatic memoization",
+            "B": "React.FC<Props> enforces prop types at compile time and types the JSX return value",
+            "C": "React.FC<Props> adds lifecycle methods to the function",
+            "D": "React.FC<Props> is required for hooks to work"
+          },
+          "answer": "B",
+          "explanation": "`React.FC<Props>` (alias for `React.FunctionComponent<Props>`) annotates the function so TypeScript checks every call-site's props against `Props`. It also types the return as `JSX.Element | null`. Note: modern React (v18+) removed the implicit `children` prop from FC.",
+          "points_value": 10
+        },
+        {
+          "title": "Typing onChange Events",
+          "content_type": "quiz",
+          "code_snippet": "const Input = () => {\n  const handleChange = (e: ________) => {\n    console.log(e.target.value);\n  };\n  return <input onChange={handleChange} />;\n};",
+          "choices": {
+            "A": "Event",
+            "B": "InputEvent",
+            "C": "React.ChangeEvent<HTMLInputElement>",
+            "D": "React.SyntheticEvent"
+          },
+          "answer": "C",
+          "explanation": "React wraps native browser events in `SyntheticEvent`. For `<input>` onChange the precise type is `React.ChangeEvent<HTMLInputElement>`, which exposes `e.target.value` as `string` and `e.target.checked` as `boolean`. The generic parameter is the DOM element type.",
+          "points_value": 15
+        },
+        {
+          "title": "useRef with DOM Elements — Null Safety",
+          "content_type": "quiz",
+          "code_snippet": "const inputRef = useRef<HTMLInputElement>(null);\n\nfunction focusInput() {\n  inputRef.current.focus(); // What's wrong?\n}",
+          "choices": {
+            "A": "useRef doesn't work with DOM elements — use createRef instead",
+            "B": "`current` could be null before the element mounts — needs a null check",
+            "C": "No issue — TypeScript knows current is always set after mount",
+            "D": "HTMLInputElement has no focus() method"
+          },
+          "answer": "B",
+          "explanation": "`useRef<HTMLInputElement>(null)` initializes `current` as `null` and TypeScript types it as `HTMLInputElement | null`. Calling `.focus()` directly errors: 'Object is possibly null'. The fix: `if (inputRef.current) inputRef.current.focus()`.",
+          "points_value": 15
+        }
+      ]
+    },
+    {
+      "title": "React Hooks & TypeScript",
+      "slug": "react-hooks-typescript",
+      "description": "useState, useEffect, useMemo, useCallback — typed correctly.",
+      "sections": [
+        {
+          "title": "useState — The never[] Pitfall",
+          "content_type": "quiz",
+          "code_snippet": "const [items, setItems] = useState([]);\nsetItems([1, 2, 3]);",
+          "choices": {
+            "A": "Works fine — TypeScript infers number[] from the setter call",
+            "B": "Type error — TypeScript infers `never[]` for `[]`; numbers are not assignable to never",
+            "C": "Works fine — empty array is typed as any[]",
+            "D": "Runtime error — useState doesn't accept arrays"
+          },
+          "answer": "B",
+          "explanation": "TypeScript infers `useState([])` as `never[]` because it cannot determine the element type from an empty literal. Numbers are not assignable to `never`. Fix: `useState<number[]>([])` to provide the generic type explicitly.",
+          "points_value": 15
+        },
+        {
+          "title": "useEffect Cleanup Function",
+          "content_type": "quiz",
+          "code_snippet": "useEffect(() => {\n  const id = setInterval(() => console.log('tick'), 1000);\n  return () => clearInterval(id);\n}, []);",
+          "choices": {
+            "A": "The return function re-runs the effect on every render",
+            "B": "The return function is the cleanup — runs on unmount (or before the next effect run when deps change)",
+            "C": "Returning a function from useEffect is a type error in TypeScript",
+            "D": "The cleanup only runs when a dependency array value changes"
+          },
+          "answer": "B",
+          "explanation": "useEffect's return value must be `void` or a cleanup function `() => void`. With `[]` deps it runs only on unmount. This clears the interval and prevents memory leaks. Without cleanup, the interval would keep firing after the component is removed from the DOM.",
+          "points_value": 15
+        },
+        {
+          "title": "useMemo vs useCallback",
+          "content_type": "quiz",
+          "body_markdown": "What is the **key difference** between `useMemo` and `useCallback`?",
+          "choices": {
+            "A": "useMemo is for async operations; useCallback is for sync operations",
+            "B": "useMemo memoizes a computed **value**; useCallback memoizes a **function reference**",
+            "C": "useCallback re-computes on every render; useMemo never re-computes",
+            "D": "They are identical — useCallback is just an alias of useMemo"
+          },
+          "answer": "B",
+          "explanation": "`useMemo(() => expensiveCalc(a, b), [a, b])` caches the **result**. `useCallback((x) => handler(a, x), [a])` caches the **function reference** — equivalent to `useMemo(() => (x) => handler(a, x), [a])`. Use useCallback to stabilize callbacks passed to memoized children.",
+          "points_value": 15
+        }
+      ]
+    },
+    {
+      "title": "Patterns & Performance",
+      "slug": "react-ts-patterns",
+      "description": "React.memo, typed Context, and discriminated union props.",
+      "sections": [
+        {
+          "title": "React.memo — Shallow Comparison",
+          "content_type": "quiz",
+          "code_snippet": "const Child = React.memo(({ value }: { value: number }) => {\n  console.log('render');\n  return <div>{value}</div>;\n});\n\n// Parent re-renders — same value prop passed\n<Child value={42} />",
+          "choices": {
+            "A": "Child re-renders every time the parent renders",
+            "B": "Child only re-renders when the `value` prop changes (shallow equality check)",
+            "C": "Child never re-renders after the first mount",
+            "D": "Child re-renders only when its own internal state changes"
+          },
+          "answer": "B",
+          "explanation": "`React.memo` wraps a component and performs a **shallow comparison** of previous vs next props. If `value` is still `42`, the render is skipped. Caveat: for object/array/function props, reference equality is checked — a new object literal `{}` is always a different reference, breaking memoization.",
+          "points_value": 15
+        },
+        {
+          "title": "Typed Context with Null Guard",
+          "content_type": "quiz",
+          "code_snippet": "interface ThemeCtx { dark: boolean; toggle: () => void; }\nconst ThemeContext = createContext<ThemeCtx | null>(null);\n\nfunction useTheme() {\n  const ctx = useContext(ThemeContext);\n  if (!ctx) throw new Error('useTheme must be inside ThemeProvider');\n  return ctx; // TypeScript: ThemeCtx here\n}",
+          "choices": {
+            "A": "The throw is required by React's rules for custom hooks",
+            "B": "It narrows the type from `ThemeCtx | null` to `ThemeCtx` AND provides a clear developer error when used outside the provider",
+            "C": "It prevents the context from triggering re-renders",
+            "D": "It is unnecessary — useContext never returns null"
+          },
+          "answer": "B",
+          "explanation": "TypeScript knows `ctx` is `ThemeCtx | null`. After the `if (!ctx) throw`, control-flow analysis narrows the type to `ThemeCtx` for the rest of the function — no assertion needed. The throw also produces a clear error message instead of a confusing 'Cannot read properties of null'.",
+          "points_value": 15
+        },
+        {
+          "title": "Discriminated Union Props",
+          "content_type": "quiz",
+          "code_snippet": "type ButtonProps =\n  | { variant: 'link';   href: string }\n  | { variant: 'button'; onClick: () => void };\n\nfunction Action(props: ButtonProps) {\n  if (props.variant === 'link') {\n    return <a href={props.href}>Go</a>;     // href safe here\n  }\n  return <button onClick={props.onClick}>Act</button>;\n}",
+          "choices": {
+            "A": "This causes runtime errors because TypeScript types are erased",
+            "B": "TypeScript narrows the union via `variant`, making each branch's exclusive props available type-safely",
+            "C": "Both `href` and `onClick` are available in both branches",
+            "D": "This requires a type assertion (`as`) to access href"
+          },
+          "answer": "B",
+          "explanation": "A **discriminated union** uses a shared literal property (`variant`) as a discriminant. Inside `variant === 'link'`, TypeScript narrows `props` to `{ variant: 'link'; href: string }` — accessing `href` is safe and `onClick` doesn't exist. This pattern eliminates invalid prop combinations at compile time.",
+          "points_value": 20
+        }
+      ]
+    }
+  ]
+}

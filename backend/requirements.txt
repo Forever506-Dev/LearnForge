@@ -1,0 +1,42 @@
+# ── Web Framework ──
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+
+# ── Database ──
+sqlalchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+psycopg2-binary==2.9.10
+alembic==1.14.1
+greenlet==3.1.1
+
+# ── Auth ──
+python-jose[cryptography]==3.3.0
+argon2-cffi==23.1.0
+
+# ── Security ──
+slowapi==0.1.9
+pycryptodome==3.21.0
+
+# ── Cache ──
+redis[hiredis]==5.2.1
+
+# ── HTTP Client (for Piston) ──
+httpx==0.28.1
+
+# ── Docker SDK (for lab management) ──
+docker==7.1.0
+
+# ── Settings ──
+pydantic-settings==2.7.1
+
+# ── Validation ──
+email-validator>=2.0.0
+
+# ── Utilities ──
+python-multipart==0.0.20
+
+# ── SSE ──
+sse-starlette==2.1.0
+
+# ── WebSocket proxy (noVNC) ──
+websockets>=12.0,<14.0

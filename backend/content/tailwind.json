@@ -1,0 +1,44 @@
+{
+  "title": "Tailwind CSS Mastery",
+  "slug": "tailwind",
+  "description": "Master Tailwind CSS — utility-first concepts, responsive design, flex/grid, theming, plugins, and dark mode.",
+  "category": "frontend",
+  "difficulty": "fundamental",
+  "icon": "🎨",
+  "language_key": "tailwind",
+  "modules": [
+    {
+      "title": "Utility-First Fundamentals",
+      "slug": "tw-basics",
+      "description": "Core utility-first philosophy, spacing, colors, typography.",
+      "sections": [
+        {"title": "Utility-First Concept", "content_type": "quiz", "body_markdown": "What is the 'utility-first' approach in Tailwind CSS?", "choices": {"A": "Writing CSS in a separate utility file", "B": "Using small, single-purpose CSS classes directly in HTML", "C": "Using JavaScript to generate CSS", "D": "Pre-building all possible CSS combinations"}, "answer": "B", "explanation": "Utility-first means composing designs with small, focused classes like `text-center`, `p-4`, `bg-blue-500` directly in markup.", "points_value": 10},
+        {"title": "Spacing Scale", "content_type": "quiz", "code_snippet": "<div class=\"p-4 m-2\">Hello</div>", "body_markdown": "What do `p-4` and `m-2` apply?", "choices": {"A": "4px padding and 2px margin", "B": "1rem padding and 0.5rem margin", "C": "4rem padding and 2rem margin", "D": "16px padding and 8px margin"}, "answer": "B", "explanation": "Tailwind's spacing scale: each unit = 0.25rem. So `p-4` = 1rem (16px) padding, `m-2` = 0.5rem (8px) margin.", "points_value": 10},
+        {"title": "Color System", "content_type": "quiz", "code_snippet": "<p class=\"text-red-500 bg-gray-100\">Error</p>", "body_markdown": "What does the `500` in `text-red-500` represent?", "choices": {"A": "A 500px font size", "B": "The shade/intensity on a 50–950 scale (500 = medium)", "C": "The CSS specificity", "D": "The color's hex code"}, "answer": "B", "explanation": "Tailwind uses a numeric shade scale (50=lightest, 950=darkest). 500 is the medium/default shade.", "points_value": 10},
+        {"title": "Typography", "content_type": "quiz", "code_snippet": "<h1 class=\"text-3xl font-bold leading-tight\">Title</h1>", "body_markdown": "What does `leading-tight` do?", "choices": {"A": "Adds letter-spacing", "B": "Sets a compact line-height (1.25)", "C": "Makes text bold", "D": "Reduces font size"}, "answer": "B", "explanation": "`leading-tight` sets `line-height: 1.25`, creating a compact vertical rhythm. In Tailwind, 'leading' = line-height.", "points_value": 10}
+      ]
+    },
+    {
+      "title": "Responsive & Layout",
+      "slug": "tw-responsive",
+      "description": "Responsive prefixes, flexbox, grid, and layout patterns.",
+      "sections": [
+        {"title": "Responsive Prefixes", "content_type": "quiz", "code_snippet": "<div class=\"text-sm md:text-lg lg:text-2xl\">Responsive</div>", "body_markdown": "How do Tailwind's responsive prefixes work?", "choices": {"A": "They apply styles below the breakpoint", "B": "They apply styles at and above the breakpoint (mobile-first)", "C": "They only apply at exactly that breakpoint", "D": "They override all other styles"}, "answer": "B", "explanation": "Tailwind is mobile-first: `md:` applies at ≥768px and up. Unprefixed classes are the mobile default.", "points_value": 15},
+        {"title": "Flexbox", "content_type": "quiz", "code_snippet": "<div class=\"flex items-center justify-between gap-4\">...</div>", "body_markdown": "What layout does this create?", "choices": {"A": "Vertical stack with centered items", "B": "Horizontal row, vertically centered, space between items, 1rem gap", "C": "A CSS grid with 4 columns", "D": "Absolutely positioned children"}, "answer": "B", "explanation": "`flex` = horizontal row, `items-center` = vertical centering, `justify-between` = space between, `gap-4` = 1rem gap.", "points_value": 15},
+        {"title": "Grid", "content_type": "quiz", "code_snippet": "<div class=\"grid grid-cols-3 gap-2\">...</div>", "body_markdown": "What does `grid-cols-3` produce?", "choices": {"A": "3 equal-width columns", "B": "3 rows", "C": "A 3px column gap", "D": "3 nested grids"}, "answer": "A", "explanation": "`grid-cols-3` creates 3 equal columns using `grid-template-columns: repeat(3, minmax(0, 1fr))`.", "points_value": 15},
+        {"title": "Container & Max-Width", "content_type": "quiz", "code_snippet": "<div class=\"container mx-auto px-4\">...</div>", "body_markdown": "What does the `container` class do?", "choices": {"A": "Creates a full-width container", "B": "Sets max-width to the current breakpoint's width and centers with mx-auto", "C": "Adds a border around the content", "D": "Makes the element position: relative"}, "answer": "B", "explanation": "`container` sets `max-width` matching the current responsive breakpoint. `mx-auto` centers it horizontally.", "points_value": 15}
+      ]
+    },
+    {
+      "title": "Customization & Dark Mode",
+      "slug": "tw-customization",
+      "description": "Custom themes, @apply, plugins, and dark mode.",
+      "sections": [
+        {"title": "@apply Directive", "content_type": "quiz", "code_snippet": ".btn {\n  @apply px-4 py-2 rounded bg-blue-500 text-white;\n}", "body_markdown": "What does `@apply` do?", "choices": {"A": "Imports a CSS file", "B": "Extracts Tailwind utility classes into a custom CSS class", "C": "Creates a JavaScript component", "D": "Generates media queries"}, "answer": "B", "explanation": "`@apply` lets you compose Tailwind utilities into a single reusable class in your CSS file.", "points_value": 15},
+        {"title": "Extending the Theme", "content_type": "quiz", "code_snippet": "// tailwind.config.js\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: '#e53535',\n      }\n    }\n  }\n}", "body_markdown": "After this config, which class would you use?", "choices": {"A": "text-brand", "B": "text-#e53535", "C": "color-brand", "D": "style-brand"}, "answer": "A", "explanation": "Custom colors in `extend.colors` generate utility classes: `text-brand`, `bg-brand`, `border-brand`, etc.", "points_value": 15},
+        {"title": "Dark Mode", "content_type": "quiz", "code_snippet": "<div class=\"bg-white dark:bg-gray-900 text-black dark:text-white\">", "body_markdown": "How does Tailwind's `dark:` prefix work by default?", "choices": {"A": "It checks the user's system preference via prefers-color-scheme", "B": "It always applies dark styles", "C": "It requires a dark class on the html element (class strategy)", "D": "Both A and C are valid strategies depending on configuration"}, "answer": "D", "explanation": "Tailwind supports both `media` (system preference) and `class` (manual toggle) dark mode strategies, configurable in tailwind.config.js.", "points_value": 15},
+        {"title": "Plugins", "content_type": "quiz", "body_markdown": "How do you add custom utilities or components to Tailwind?", "choices": {"A": "Edit the source code of Tailwind", "B": "Write a plugin function in tailwind.config.js using the plugin API", "C": "Use only inline styles", "D": "Tailwind does not support plugins"}, "answer": "B", "explanation": "Tailwind's plugin API lets you register custom utilities, components, and base styles via `addUtilities`, `addComponents`, etc.", "points_value": 15}
+      ]
+    }
+  ]
+}

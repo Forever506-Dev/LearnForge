@@ -1,0 +1,44 @@
+{
+  "title": "Rust Fundamentals",
+  "slug": "rust",
+  "description": "Learn Rust from ownership and borrowing through traits, enums, pattern matching, and Cargo.",
+  "category": "coding",
+  "difficulty": "medium",
+  "icon": "🦀",
+  "language_key": "rust",
+  "modules": [
+    {
+      "title": "Ownership & Borrowing",
+      "slug": "rust-ownership",
+      "description": "Rust's core memory model — ownership, borrowing, and lifetimes.",
+      "sections": [
+        {"title": "Ownership Move", "content_type": "quiz", "code_snippet": "let s1 = String::from(\"hello\");\nlet s2 = s1;\nprintln!(\"{}\", s1);", "choices": {"A": "hello", "B": "Compile error — s1 was moved", "C": "Empty string", "D": "Runtime panic"}, "answer": "B", "explanation": "Rust's ownership model means assigning `s1` to `s2` MOVES the data. `s1` is no longer valid.", "points_value": 15},
+        {"title": "Borrowing", "content_type": "quiz", "code_snippet": "fn len(s: &String) -> usize {\n    s.len()\n}\nlet s = String::from(\"hi\");\nprintln!(\"{} {}\", len(&s), s);", "choices": {"A": "2 hi", "B": "Compile error", "C": "2 (empty)", "D": "Runtime error"}, "answer": "A", "explanation": "`&s` creates an immutable borrow. The function reads but doesn't take ownership, so `s` is still valid.", "points_value": 15},
+        {"title": "Mutable References", "content_type": "quiz", "body_markdown": "How many mutable references to a variable can exist at the same time in Rust?", "choices": {"A": "Unlimited", "B": "Exactly one", "C": "Two", "D": "Same as immutable references"}, "answer": "B", "explanation": "Rust enforces at compile time: you can have either ONE mutable reference OR any number of immutable references, never both.", "points_value": 15},
+        {"title": "Lifetimes", "content_type": "quiz", "body_markdown": "What do lifetime annotations (e.g., `'a`) in Rust specify?", "choices": {"A": "How long a variable lives in memory at runtime", "B": "The relationship between the lifetimes of references so the borrow checker can validate them", "C": "The size of the variable in bytes", "D": "The thread on which the variable is allocated"}, "answer": "B", "explanation": "Lifetime annotations don't change how long references live — they tell the compiler how reference lifetimes relate to each other.", "points_value": 20}
+      ]
+    },
+    {
+      "title": "Enums & Pattern Matching",
+      "slug": "rust-enums",
+      "description": "Enums, Option, Result, and match expressions.",
+      "sections": [
+        {"title": "Enum with Data", "content_type": "quiz", "code_snippet": "enum Shape {\n    Circle(f64),\n    Rectangle(f64, f64),\n}\nlet s = Shape::Circle(5.0);", "body_markdown": "What is stored in `s`?", "choices": {"A": "Just the variant tag 'Circle'", "B": "The variant Circle with its associated data 5.0", "C": "A tuple (Circle, 5.0)", "D": "Error"}, "answer": "B", "explanation": "Rust enums can carry data. `Shape::Circle(5.0)` stores both the variant identifier and the f64 value.", "points_value": 15},
+        {"title": "Option<T>", "content_type": "quiz", "code_snippet": "let x: Option<i32> = Some(5);\nmatch x {\n    Some(n) => println!(\"{}\", n * 2),\n    None => println!(\"nothing\"),\n}", "choices": {"A": "5", "B": "10", "C": "nothing", "D": "Error"}, "answer": "B", "explanation": "`x` is `Some(5)`, so the `Some(n)` arm matches with n=5, printing 5*2 = 10.", "points_value": 15},
+        {"title": "Result<T, E>", "content_type": "quiz", "body_markdown": "What is the idiomatic way to propagate errors in Rust?", "choices": {"A": "try/catch blocks", "B": "The `?` operator after a Result-returning expression", "C": "panic!() on every error", "D": "Ignoring the Result with `let _ = ...`"}, "answer": "B", "explanation": "The `?` operator unwraps Ok values or returns Err early. It's the standard way to propagate errors.", "points_value": 15},
+        {"title": "if let", "content_type": "quiz", "code_snippet": "let val: Option<&str> = Some(\"hello\");\nif let Some(s) = val {\n    println!(\"{}\", s);\n}", "choices": {"A": "hello", "B": "Some(hello)", "C": "Error", "D": "Nothing printed"}, "answer": "A", "explanation": "`if let` destructures the Option. Since val is Some, s binds to \"hello\" and it's printed.", "points_value": 15}
+      ]
+    },
+    {
+      "title": "Traits & Cargo",
+      "slug": "rust-traits",
+      "description": "Traits, generics, and the Cargo build system.",
+      "sections": [
+        {"title": "Trait Basics", "content_type": "quiz", "code_snippet": "trait Greet {\n    fn hello(&self) -> String;\n}\nstruct User { name: String }\nimpl Greet for User {\n    fn hello(&self) -> String {\n        format!(\"Hi, {}!\", self.name)\n    }\n}", "body_markdown": "What does `User{name: \"Alice\".into()}.hello()` return?", "choices": {"A": "Hi, Alice!", "B": "Hello, Alice!", "C": "Error", "D": "User(Alice)"}, "answer": "A", "explanation": "The `Greet` trait implementation for User formats the greeting with the user's name.", "points_value": 15},
+        {"title": "Derive Macros", "content_type": "quiz", "code_snippet": "#[derive(Debug, Clone, PartialEq)]\nstruct Point { x: f64, y: f64 }", "body_markdown": "What do derive macros do?", "choices": {"A": "Create subclasses", "B": "Auto-implement trait methods based on the struct's fields", "C": "Generate documentation", "D": "Optimize performance"}, "answer": "B", "explanation": "`derive` auto-generates trait implementations. Debug enables `{:?}` printing, Clone enables `.clone()`, PartialEq enables `==`.", "points_value": 15},
+        {"title": "Cargo Basics", "content_type": "quiz", "body_markdown": "What does `cargo build --release` do?", "choices": {"A": "Publishes the crate to crates.io", "B": "Compiles the project with optimizations enabled", "C": "Runs all tests", "D": "Creates a new project"}, "answer": "B", "explanation": "`cargo build --release` compiles with optimizations (opt-level 3), producing a faster binary in `target/release/`.", "points_value": 10},
+        {"title": "Cargo.toml", "content_type": "quiz", "body_markdown": "Where are Rust project dependencies declared?", "choices": {"A": "requirements.txt", "B": "package.json", "C": "Cargo.toml under [dependencies]", "D": "Makefile"}, "answer": "C", "explanation": "`Cargo.toml` is Rust's manifest file. Dependencies go under the `[dependencies]` section.", "points_value": 10}
+      ]
+    }
+  ]
+}

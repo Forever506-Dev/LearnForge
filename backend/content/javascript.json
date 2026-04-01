@@ -1,0 +1,58 @@
+{
+  "title": "JavaScript Essentials",
+  "slug": "javascript",
+  "description": "Learn JavaScript from variables and functions through closures, promises, async/await, and modern ES6+ features.",
+  "category": "coding",
+  "difficulty": "easy",
+  "icon": "🟨",
+  "language_key": "javascript",
+  "modules": [
+    {
+      "title": "Basics & Types",
+      "slug": "js-basics",
+      "description": "Variables, types, operators, and control flow.",
+      "sections": [
+        {"title": "let vs const vs var", "content_type": "quiz", "code_snippet": "let a = 1;\nconst b = 2;\nvar c = 3;\na = 10;\n// b = 20; // would throw\nconsole.log(a, b, c);", "choices": {"A": "1 2 3", "B": "10 2 3", "C": "10 20 3", "D": "Error"}, "answer": "B", "explanation": "`let` allows reassignment, `const` does not, `var` is function-scoped. a is reassigned to 10.", "points_value": 10},
+        {"title": "Strict Equality", "content_type": "quiz", "code_snippet": "console.log(0 == '0');\nconsole.log(0 === '0');", "choices": {"A": "true true", "B": "true false", "C": "false true", "D": "false false"}, "answer": "B", "explanation": "`==` performs type coercion (0 equals '0'). `===` checks type AND value (number !== string).", "points_value": 10},
+        {"title": "Template Literals", "content_type": "quiz", "code_snippet": "const name = 'World';\nconsole.log(`Hello, ${name}!`);", "choices": {"A": "Hello, ${name}!", "B": "Hello, World!", "C": "Hello, name!", "D": "Error"}, "answer": "B", "explanation": "Template literals (backticks) evaluate `${expressions}` inline.", "points_value": 10},
+        {"title": "Typeof", "content_type": "quiz", "code_snippet": "console.log(typeof null);", "choices": {"A": "null", "B": "undefined", "C": "object", "D": "Error"}, "answer": "C", "explanation": "This is a well-known JavaScript quirk. `typeof null` returns 'object' due to a legacy bug in the language.", "points_value": 10},
+        {"title": "Array Methods", "content_type": "quiz", "code_snippet": "const arr = [1, 2, 3, 4];\nconst result = arr.filter(x => x % 2 === 0).map(x => x * 10);\nconsole.log(result);", "choices": {"A": "[10, 20, 30, 40]", "B": "[20, 40]", "C": "[2, 4]", "D": "Error"}, "answer": "B", "explanation": "`filter` keeps even numbers [2,4], then `map` multiplies by 10 → [20, 40].", "points_value": 10}
+      ]
+    },
+    {
+      "title": "Functions & Scope",
+      "slug": "js-functions",
+      "description": "Closures, arrow functions, hoisting, and scope.",
+      "sections": [
+        {"title": "Closures", "content_type": "quiz", "code_snippet": "function counter() {\n  let count = 0;\n  return () => ++count;\n}\nconst inc = counter();\nconsole.log(inc(), inc(), inc());", "choices": {"A": "0 0 0", "B": "1 1 1", "C": "1 2 3", "D": "Error"}, "answer": "C", "explanation": "The inner arrow function 'closes over' the `count` variable. Each call increments and returns the updated value.", "points_value": 15},
+        {"title": "Arrow vs Regular this", "content_type": "quiz", "body_markdown": "In JavaScript, how does `this` differ in arrow functions vs regular functions?", "choices": {"A": "Arrow functions have their own `this` binding", "B": "Arrow functions inherit `this` from the enclosing lexical scope", "C": "Regular functions inherit `this` from the parent scope", "D": "`this` works identically in both"}, "answer": "B", "explanation": "Arrow functions do not have their own `this` — they capture `this` from the surrounding scope at definition time.", "points_value": 15},
+        {"title": "Hoisting", "content_type": "quiz", "code_snippet": "console.log(x);\nvar x = 5;", "choices": {"A": "5", "B": "undefined", "C": "ReferenceError", "D": "null"}, "answer": "B", "explanation": "`var` declarations are hoisted (moved to top of scope), but the assignment happens at the original line. So x is undefined when logged.", "points_value": 15},
+        {"title": "Destructuring", "content_type": "quiz", "code_snippet": "const { a, b, ...rest } = { a: 1, b: 2, c: 3, d: 4 };\nconsole.log(rest);", "choices": {"A": "{ a: 1, b: 2 }", "B": "{ c: 3, d: 4 }", "C": "[3, 4]", "D": "Error"}, "answer": "B", "explanation": "Destructuring extracts `a` and `b`; the rest operator `...rest` collects remaining properties into a new object.", "points_value": 15},
+        {"title": "Spread Operator", "content_type": "quiz", "code_snippet": "const a = [1, 2];\nconst b = [3, 4];\nconst c = [...a, ...b];\nconsole.log(c);", "choices": {"A": "[[1,2],[3,4]]", "B": "[1, 2, 3, 4]", "C": "[1, 2, [3, 4]]", "D": "Error"}, "answer": "B", "explanation": "The spread operator `...` expands arrays into individual elements, creating a flat merged array.", "points_value": 15}
+      ]
+    },
+    {
+      "title": "Async JavaScript",
+      "slug": "js-async",
+      "description": "Promises, async/await, and the event loop.",
+      "sections": [
+        {"title": "Promise Basics", "content_type": "quiz", "code_snippet": "const p = new Promise((resolve) => resolve(42));\np.then(val => console.log(val));", "choices": {"A": "undefined", "B": "42", "C": "Promise object", "D": "Error"}, "answer": "B", "explanation": "The promise resolves immediately with 42. `.then()` receives the resolved value and logs it.", "points_value": 15},
+        {"title": "async/await", "content_type": "quiz", "code_snippet": "async function fetchData() {\n  return 'data';\n}\nfetchData().then(console.log);", "choices": {"A": "data", "B": "undefined", "C": "Promise", "D": "Error"}, "answer": "A", "explanation": "`async` functions always return a Promise. Returning 'data' is equivalent to `Promise.resolve('data')`.", "points_value": 15},
+        {"title": "Event Loop Order", "content_type": "quiz", "code_snippet": "console.log('A');\nsetTimeout(() => console.log('B'), 0);\nPromise.resolve().then(() => console.log('C'));\nconsole.log('D');", "choices": {"A": "A D C B", "B": "A B C D", "C": "A D B C", "D": "A C D B"}, "answer": "A", "explanation": "Sync code runs first (A, D). Microtasks (Promises) run before macrotasks (setTimeout). So C before B.", "points_value": 20},
+        {"title": "Error Handling in Promises", "content_type": "quiz", "code_snippet": "Promise.reject('oops')\n  .catch(e => e + '!')\n  .then(val => console.log(val));", "choices": {"A": "oops", "B": "oops!", "C": "Error", "D": "undefined"}, "answer": "B", "explanation": "`.catch()` handles the rejection and returns 'oops!', which becomes the resolved value for `.then()`.", "points_value": 15}
+      ]
+    },
+    {
+      "title": "ES6+ & Node",
+      "slug": "js-modern",
+      "description": "Modern syntax, modules, and npm basics.",
+      "sections": [
+        {"title": "Optional Chaining", "content_type": "quiz", "code_snippet": "const user = { profile: { name: 'Alice' } };\nconsole.log(user.profile?.name);\nconsole.log(user.address?.city);", "choices": {"A": "Alice undefined", "B": "Alice Error", "C": "Alice null", "D": "Error"}, "answer": "A", "explanation": "Optional chaining `?.` short-circuits to `undefined` if any part of the chain is null/undefined, avoiding errors.", "points_value": 15},
+        {"title": "Nullish Coalescing", "content_type": "quiz", "code_snippet": "const val = 0;\nconsole.log(val ?? 'default');\nconsole.log(val || 'default');", "choices": {"A": "0 0", "B": "0 default", "C": "default default", "D": "default 0"}, "answer": "B", "explanation": "`??` only falls through on null/undefined (0 is kept). `||` falls through on any falsy value (0 is falsy).", "points_value": 15},
+        {"title": "npm Basics", "content_type": "quiz", "body_markdown": "What does `npm install express --save` do?", "choices": {"A": "Installs express globally", "B": "Installs express and adds it to package.json dependencies", "C": "Creates a new project called express", "D": "Updates npm itself"}, "answer": "B", "explanation": "`npm install <pkg>` downloads the package to node_modules. `--save` (default in npm 5+) adds it to package.json.", "points_value": 10},
+        {"title": "Import / Export", "content_type": "quiz", "code_snippet": "// math.js\nexport const add = (a, b) => a + b;\nexport default (a, b) => a * b;\n\n// main.js\nimport multiply, { add } from './math.js';", "body_markdown": "What does `multiply` refer to?", "choices": {"A": "The add function", "B": "The default export (multiplication function)", "C": "undefined", "D": "Error"}, "answer": "B", "explanation": "Default imports get the `export default` value. Named imports in `{}` get named exports.", "points_value": 15},
+        {"title": "Reverse String Challenge", "content_type": "coding_challenge", "body_markdown": "Read a line from stdin and print it reversed.", "code_snippet": "const line = require('readline').createInterface({input:process.stdin});\nline.on('line', s => {\n  // Your solution here\n  line.close();\n});", "test_cases": [{"input": "hello", "expected_output": "olleh"}, {"input": "JavaScript", "expected_output": "tpircSavaJ"}], "points_value": 20}
+      ]
+    }
+  ]
+}

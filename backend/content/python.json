@@ -1,0 +1,472 @@
+{
+  "title": "Python Fundamentals to Advanced",
+  "slug": "python",
+  "description": "Master Python from variables and loops through decorators, async/await, and the full ecosystem (pip, venv, pytest, packaging).",
+  "category": "coding",
+  "difficulty": "fundamental",
+  "icon": "🐍",
+  "language_key": "python",
+  "modules": [
+    {
+      "title": "Tier 1 — Beginner",
+      "slug": "python-beginner",
+      "description": "Variables, types, strings, conditionals, loops, and basic I/O.",
+      "sections": [
+        {
+          "title": "Variable Assignment",
+          "content_type": "quiz",
+          "code_snippet": "x = 5\ntype(x)",
+          "choices": {"A": "float", "B": "int", "C": "str", "D": "number"},
+          "answer": "B",
+          "explanation": "In Python, whole numbers like 5 are of type `int`. Python infers the type from the literal value.",
+          "points_value": 10
+        },
+        {
+          "title": "String Concatenation",
+          "content_type": "quiz",
+          "code_snippet": "a = 'Hello'\nb = 'World'\nprint(a + ' ' + b)",
+          "choices": {"A": "HelloWorld", "B": "Hello World", "C": "Hello+World", "D": "Error"},
+          "answer": "B",
+          "explanation": "The `+` operator concatenates strings. The space ' ' is explicitly added between the two words.",
+          "points_value": 10
+        },
+        {
+          "title": "f-String Formatting",
+          "content_type": "quiz",
+          "code_snippet": "name = 'Alice'\nage = 30\nprint(f'{name} is {age}')",
+          "choices": {"A": "{name} is {age}", "B": "Alice is 30", "C": "name is age", "D": "Error"},
+          "answer": "B",
+          "explanation": "f-strings (formatted string literals) evaluate expressions inside `{}` braces at runtime.",
+          "points_value": 10
+        },
+        {
+          "title": "Boolean Logic",
+          "content_type": "quiz",
+          "code_snippet": "x = True\ny = False\nprint(x and y)",
+          "choices": {"A": "True", "B": "False", "C": "None", "D": "Error"},
+          "answer": "B",
+          "explanation": "`and` returns True only if both operands are True. Since `y` is False, the result is False.",
+          "points_value": 10
+        },
+        {
+          "title": "If / Elif / Else",
+          "content_type": "quiz",
+          "code_snippet": "x = 15\nif x > 20:\n    print('big')\nelif x > 10:\n    print('medium')\nelse:\n    print('small')",
+          "choices": {"A": "big", "B": "medium", "C": "small", "D": "Error"},
+          "answer": "B",
+          "explanation": "x=15 fails the first check (>20) but passes the elif (>10), so 'medium' is printed.",
+          "points_value": 10
+        },
+        {
+          "title": "For Loop Range",
+          "content_type": "quiz",
+          "code_snippet": "total = 0\nfor i in range(5):\n    total += i\nprint(total)",
+          "choices": {"A": "15", "B": "10", "C": "5", "D": "0"},
+          "answer": "B",
+          "explanation": "`range(5)` produces 0,1,2,3,4. Their sum is 0+1+2+3+4 = 10.",
+          "points_value": 10
+        },
+        {
+          "title": "While Loop",
+          "content_type": "quiz",
+          "code_snippet": "x = 3\nwhile x > 0:\n    x -= 1\nprint(x)",
+          "choices": {"A": "3", "B": "1", "C": "0", "D": "-1"},
+          "answer": "C",
+          "explanation": "The loop decrements x (3→2→1→0). When x=0, the condition `x > 0` is False, so the loop exits and prints 0.",
+          "points_value": 10
+        },
+        {
+          "title": "Type Casting",
+          "content_type": "quiz",
+          "code_snippet": "x = '42'\ny = int(x) + 8\nprint(y)",
+          "choices": {"A": "428", "B": "50", "C": "'50'", "D": "Error"},
+          "answer": "B",
+          "explanation": "`int('42')` converts the string to integer 42, then 42 + 8 = 50.",
+          "points_value": 10
+        },
+        {
+          "title": "Hello World Challenge",
+          "content_type": "coding_challenge",
+          "body_markdown": "Write a program that prints `Hello, World!` to stdout.",
+          "code_snippet": "# Write your solution here\n",
+          "test_cases": [{"input": "", "expected_output": "Hello, World!"}],
+          "points_value": 15
+        }
+      ]
+    },
+    {
+      "title": "Tier 2 — Intermediate",
+      "slug": "python-intermediate",
+      "description": "Functions, data structures, comprehensions, file I/O, and error handling.",
+      "sections": [
+        {
+          "title": "Function Basics",
+          "content_type": "quiz",
+          "code_snippet": "def greet(name='World'):\n    return f'Hello, {name}!'\nprint(greet())",
+          "choices": {"A": "Hello, !", "B": "Hello, World!", "C": "Hello, name!", "D": "Error"},
+          "answer": "B",
+          "explanation": "When no argument is passed, the default value 'World' is used.",
+          "points_value": 15
+        },
+        {
+          "title": "*args and **kwargs",
+          "content_type": "quiz",
+          "code_snippet": "def f(*args, **kwargs):\n    return len(args) + len(kwargs)\nprint(f(1, 2, a=3, b=4))",
+          "choices": {"A": "2", "B": "4", "C": "6", "D": "Error"},
+          "answer": "B",
+          "explanation": "`args` captures positional args (1,2) → len 2. `kwargs` captures keyword args (a,b) → len 2. Total = 4.",
+          "points_value": 15
+        },
+        {
+          "title": "List Slicing",
+          "content_type": "quiz",
+          "code_snippet": "nums = [0, 1, 2, 3, 4, 5]\nprint(nums[1:4])",
+          "choices": {"A": "[1, 2, 3]", "B": "[1, 2, 3, 4]", "C": "[0, 1, 2, 3]", "D": "[2, 3, 4]"},
+          "answer": "A",
+          "explanation": "Slicing `[1:4]` includes index 1, 2, 3 (start inclusive, end exclusive).",
+          "points_value": 15
+        },
+        {
+          "title": "Dictionary Methods",
+          "content_type": "quiz",
+          "code_snippet": "d = {'a': 1, 'b': 2}\nprint(d.get('c', 0))",
+          "choices": {"A": "None", "B": "0", "C": "Error", "D": "''"},
+          "answer": "B",
+          "explanation": "`.get(key, default)` returns the default value (0) if the key doesn't exist.",
+          "points_value": 15
+        },
+        {
+          "title": "List Comprehension",
+          "content_type": "quiz",
+          "code_snippet": "squares = [x**2 for x in range(5)]\nprint(squares)",
+          "choices": {"A": "[0, 1, 4, 9, 16]", "B": "[1, 4, 9, 16, 25]", "C": "[0, 1, 2, 3, 4]", "D": "[0, 2, 4, 6, 8]"},
+          "answer": "A",
+          "explanation": "`range(5)` is 0–4. Squaring each: 0,1,4,9,16.",
+          "points_value": 15
+        },
+        {
+          "title": "Set Operations",
+          "content_type": "quiz",
+          "code_snippet": "a = {1, 2, 3}\nb = {2, 3, 4}\nprint(a & b)",
+          "choices": {"A": "{1, 2, 3, 4}", "B": "{2, 3}", "C": "{1, 4}", "D": "Error"},
+          "answer": "B",
+          "explanation": "The `&` operator returns the intersection — elements common to both sets.",
+          "points_value": 15
+        },
+        {
+          "title": "Try / Except / Finally",
+          "content_type": "quiz",
+          "code_snippet": "try:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    x = -1\nfinally:\n    x += 1\nprint(x)",
+          "choices": {"A": "0", "B": "-1", "C": "1", "D": "Error"},
+          "answer": "A",
+          "explanation": "The except sets x=-1, then finally always runs and adds 1, so x = -1+1 = 0.",
+          "points_value": 15
+        },
+        {
+          "title": "Sum of Evens Challenge",
+          "content_type": "coding_challenge",
+          "body_markdown": "Read an integer `n` from stdin and print the sum of all even numbers from 1 to n (inclusive).",
+          "code_snippet": "n = int(input())\n# Your solution here\n",
+          "test_cases": [
+            {"input": "10", "expected_output": "30"},
+            {"input": "7", "expected_output": "12"}
+          ],
+          "points_value": 25
+        }
+      ]
+    },
+    {
+      "title": "Tier 3 — Advanced Language",
+      "slug": "python-advanced",
+      "description": "OOP, decorators, generators, context managers, and functional tools.",
+      "sections": [
+        {
+          "title": "Class Inheritance",
+          "content_type": "quiz",
+          "code_snippet": "class Animal:\n    def speak(self):\n        return '...'\n\nclass Dog(Animal):\n    def speak(self):\n        return 'Woof'\n\nprint(Dog().speak())",
+          "choices": {"A": "...", "B": "Woof", "C": "Error", "D": "None"},
+          "answer": "B",
+          "explanation": "Dog overrides the `speak` method from Animal. Method resolution order (MRO) finds Dog's version first.",
+          "points_value": 20
+        },
+        {
+          "title": "super() and __init__",
+          "content_type": "quiz",
+          "code_snippet": "class A:\n    def __init__(self):\n        self.x = 1\n\nclass B(A):\n    def __init__(self):\n        super().__init__()\n        self.y = 2\n\nb = B()\nprint(b.x + b.y)",
+          "choices": {"A": "1", "B": "2", "C": "3", "D": "Error"},
+          "answer": "C",
+          "explanation": "`super().__init__()` calls A's __init__ setting x=1, then B sets y=2. Sum is 3.",
+          "points_value": 20
+        },
+        {
+          "title": "Dunder __len__",
+          "content_type": "quiz",
+          "code_snippet": "class Bag:\n    def __init__(self, items):\n        self.items = items\n    def __len__(self):\n        return len(self.items)\n\nprint(len(Bag([1,2,3])))",
+          "choices": {"A": "3", "B": "Error", "C": "None", "D": "0"},
+          "answer": "A",
+          "explanation": "Implementing `__len__` lets you use the built-in `len()` on your custom objects.",
+          "points_value": 20
+        },
+        {
+          "title": "Decorator Basics",
+          "content_type": "quiz",
+          "code_snippet": "def double(fn):\n    def wrapper(*a):\n        return fn(*a) * 2\n    return wrapper\n\n@double\ndef add(x, y):\n    return x + y\n\nprint(add(3, 4))",
+          "choices": {"A": "7", "B": "14", "C": "12", "D": "Error"},
+          "answer": "B",
+          "explanation": "The @double decorator wraps add so the result (3+4=7) is multiplied by 2, giving 14.",
+          "points_value": 20
+        },
+        {
+          "title": "Generator with yield",
+          "content_type": "quiz",
+          "code_snippet": "def gen():\n    yield 1\n    yield 2\n    yield 3\n\nprint(list(gen()))",
+          "choices": {"A": "[1, 2, 3]", "B": "1", "C": "generator object", "D": "Error"},
+          "answer": "A",
+          "explanation": "Each `yield` produces a value lazily. `list()` exhausts the generator, collecting all values.",
+          "points_value": 20
+        },
+        {
+          "title": "Context Manager (with)",
+          "content_type": "quiz",
+          "code_snippet": "class CM:\n    def __enter__(self):\n        return 'hello'\n    def __exit__(self, *args):\n        pass\n\nwith CM() as val:\n    print(val)",
+          "choices": {"A": "None", "B": "hello", "C": "CM object", "D": "Error"},
+          "answer": "B",
+          "explanation": "`__enter__` returns the value bound to `val` in the `with ... as val` statement.",
+          "points_value": 20
+        },
+        {
+          "title": "Lambda and map",
+          "content_type": "quiz",
+          "code_snippet": "nums = [1, 2, 3, 4]\nresult = list(map(lambda x: x * 3, nums))\nprint(result)",
+          "choices": {"A": "[1, 2, 3, 4]", "B": "[3, 6, 9, 12]", "C": "[2, 4, 6, 8]", "D": "Error"},
+          "answer": "B",
+          "explanation": "`map` applies the lambda (multiply by 3) to each element: 3,6,9,12.",
+          "points_value": 20
+        },
+        {
+          "title": "Fibonacci Generator Challenge",
+          "content_type": "coding_challenge",
+          "body_markdown": "Read an integer `n` from stdin and print the first `n` Fibonacci numbers separated by spaces (starting with 0, 1).",
+          "code_snippet": "n = int(input())\n# Your solution here\n",
+          "test_cases": [
+            {"input": "5", "expected_output": "0 1 1 2 3"},
+            {"input": "8", "expected_output": "0 1 1 2 3 5 8 13"}
+          ],
+          "points_value": 30
+        }
+      ]
+    },
+    {
+      "title": "Tier 4 — Expert",
+      "slug": "python-expert",
+      "description": "Metaclasses, async/await, concurrency, type hints, dataclasses, walrus operator.",
+      "sections": [
+        {
+          "title": "Dataclasses",
+          "content_type": "quiz",
+          "code_snippet": "from dataclasses import dataclass\n\n@dataclass\nclass Point:\n    x: float\n    y: float\n\np = Point(1.0, 2.0)\nprint(p)",
+          "choices": {"A": "<Point object>", "B": "Point(x=1.0, y=2.0)", "C": "(1.0, 2.0)", "D": "Error"},
+          "answer": "B",
+          "explanation": "@dataclass auto-generates `__repr__` that shows the class name and field values.",
+          "points_value": 20
+        },
+        {
+          "title": "Walrus Operator",
+          "content_type": "quiz",
+          "code_snippet": "data = [1, 2, 3, 4, 5]\nif (n := len(data)) > 3:\n    print(n)",
+          "choices": {"A": "5", "B": "3", "C": "True", "D": "Error"},
+          "answer": "A",
+          "explanation": "The walrus operator `:=` assigns len(data)=5 to `n` and evaluates the condition. Since 5>3, it prints 5.",
+          "points_value": 20
+        },
+        {
+          "title": "Type Hints",
+          "content_type": "quiz",
+          "code_snippet": "from typing import List\n\ndef avg(nums: List[float]) -> float:\n    return sum(nums) / len(nums)\n\nprint(avg([1, 2, 3]))",
+          "choices": {"A": "2", "B": "2.0", "C": "Error (type mismatch)", "D": "6.0"},
+          "answer": "B",
+          "explanation": "Type hints are not enforced at runtime in Python. sum([1,2,3])/3 = 2.0 (float division).",
+          "points_value": 20
+        },
+        {
+          "title": "Abstract Base Classes",
+          "content_type": "quiz",
+          "code_snippet": "from abc import ABC, abstractmethod\n\nclass Shape(ABC):\n    @abstractmethod\n    def area(self) -> float:\n        pass\n\ntry:\n    s = Shape()\nexcept TypeError:\n    print('Cannot instantiate')",
+          "choices": {"A": "Cannot instantiate", "B": "None", "C": "0.0", "D": "Error"},
+          "answer": "A",
+          "explanation": "ABCs with abstract methods cannot be instantiated directly — you must subclass and implement all abstract methods.",
+          "points_value": 20
+        },
+        {
+          "title": "Async / Await Basics",
+          "content_type": "quiz",
+          "code_snippet": "import asyncio\n\nasync def greet():\n    return 'hello'\n\nresult = asyncio.run(greet())\nprint(result)",
+          "choices": {"A": "hello", "B": "coroutine object", "C": "None", "D": "Error"},
+          "answer": "A",
+          "explanation": "`asyncio.run()` executes the coroutine and returns its result. The `async` function returns 'hello'.",
+          "points_value": 25
+        },
+        {
+          "title": "Threading vs Multiprocessing",
+          "content_type": "quiz",
+          "body_markdown": "Which statement about Python concurrency is TRUE?",
+          "choices": {
+            "A": "Threading bypasses the GIL for CPU-bound tasks",
+            "B": "Multiprocessing uses separate memory spaces per process",
+            "C": "Threading and multiprocessing are identical in behavior",
+            "D": "The GIL does not exist in CPython"
+          },
+          "answer": "B",
+          "explanation": "Each process in multiprocessing has its own memory space and Python interpreter, bypassing the GIL for CPU-bound parallelism.",
+          "points_value": 20
+        },
+        {
+          "title": "Descriptors",
+          "content_type": "quiz",
+          "code_snippet": "class Positive:\n    def __set_name__(self, owner, name):\n        self.name = name\n    def __get__(self, obj, objtype=None):\n        return obj.__dict__.get(self.name, 0)\n    def __set__(self, obj, value):\n        if value < 0:\n            raise ValueError\n        obj.__dict__[self.name] = value\n\nclass Account:\n    balance = Positive()\n\na = Account()\na.balance = 100\nprint(a.balance)",
+          "choices": {"A": "100", "B": "0", "C": "Error", "D": "None"},
+          "answer": "A",
+          "explanation": "The descriptor's `__set__` validates (100 >= 0 → OK) and stores in the instance dict. `__get__` retrieves it.",
+          "points_value": 25
+        },
+        {
+          "title": "Metaclass Basics",
+          "content_type": "quiz",
+          "body_markdown": "In Python, what is a metaclass?",
+          "choices": {
+            "A": "A class that inherits from multiple parents",
+            "B": "A class whose instances are themselves classes",
+            "C": "A special decorator for classes",
+            "D": "A class that cannot be instantiated"
+          },
+          "answer": "B",
+          "explanation": "A metaclass is a 'class of a class'. It defines how classes behave. `type` is the default metaclass in Python.",
+          "points_value": 25
+        }
+      ]
+    },
+    {
+      "title": "Tier 5 — Ecosystem & Tooling",
+      "slug": "python-ecosystem",
+      "description": "pip, venv, pytest, packaging, linting, and project structure.",
+      "sections": [
+        {
+          "title": "pip Basics",
+          "content_type": "quiz",
+          "body_markdown": "Which command installs a package from `requirements.txt`?",
+          "choices": {
+            "A": "pip install requirements.txt",
+            "B": "pip install -r requirements.txt",
+            "C": "pip load requirements.txt",
+            "D": "pip setup requirements.txt"
+          },
+          "answer": "B",
+          "explanation": "The `-r` flag tells pip to read and install all packages listed in the given requirements file.",
+          "points_value": 15
+        },
+        {
+          "title": "Virtual Environments",
+          "content_type": "quiz",
+          "body_markdown": "What does `python -m venv myenv` do?",
+          "choices": {
+            "A": "Installs Python globally",
+            "B": "Creates an isolated Python environment in a 'myenv' directory",
+            "C": "Deletes the current environment",
+            "D": "Upgrades pip to the latest version"
+          },
+          "answer": "B",
+          "explanation": "`venv` creates a self-contained directory with its own Python binary and site-packages, isolating project dependencies.",
+          "points_value": 15
+        },
+        {
+          "title": "pytest Basics",
+          "content_type": "quiz",
+          "code_snippet": "# test_math.py\ndef test_add():\n    assert 1 + 1 == 2\n\ndef test_sub():\n    assert 5 - 3 == 3",
+          "body_markdown": "How many tests will PASS when you run `pytest test_math.py`?",
+          "choices": {"A": "0", "B": "1", "C": "2", "D": "Error"},
+          "answer": "B",
+          "explanation": "`test_add` passes (2==2). `test_sub` fails (2 != 3). So 1 test passes.",
+          "points_value": 15
+        },
+        {
+          "title": "pytest Fixtures",
+          "content_type": "quiz",
+          "code_snippet": "import pytest\n\n@pytest.fixture\ndef sample_list():\n    return [1, 2, 3]\n\ndef test_length(sample_list):\n    assert len(sample_list) == 3",
+          "body_markdown": "What is the role of `@pytest.fixture` here?",
+          "choices": {
+            "A": "It marks the test as expected to fail",
+            "B": "It provides reusable test data injected by name into test functions",
+            "C": "It skips the test conditionally",
+            "D": "It runs the test multiple times"
+          },
+          "answer": "B",
+          "explanation": "Fixtures provide setup/teardown and reusable data. pytest injects them by matching parameter names to fixture function names.",
+          "points_value": 15
+        },
+        {
+          "title": "pytest.mark.parametrize",
+          "content_type": "quiz",
+          "code_snippet": "@pytest.mark.parametrize('x,expected', [(1,1),(2,4),(3,9)])\ndef test_square(x, expected):\n    assert x ** 2 == expected",
+          "body_markdown": "How many test cases does this generate?",
+          "choices": {"A": "1", "B": "2", "C": "3", "D": "Error"},
+          "answer": "C",
+          "explanation": "`parametrize` generates one test case per tuple in the list — three tuples means three tests.",
+          "points_value": 15
+        },
+        {
+          "title": "__init__.py and Packages",
+          "content_type": "quiz",
+          "body_markdown": "What is the purpose of `__init__.py` in a Python directory?",
+          "choices": {
+            "A": "It initializes global variables for the OS",
+            "B": "It marks the directory as a Python package, allowing imports from it",
+            "C": "It automatically installs dependencies",
+            "D": "It is required for every Python file to run"
+          },
+          "answer": "B",
+          "explanation": "`__init__.py` tells Python the directory is a package. It runs when the package is imported and can define package-level exports.",
+          "points_value": 15
+        },
+        {
+          "title": "pyproject.toml",
+          "content_type": "quiz",
+          "body_markdown": "What is `pyproject.toml` used for in modern Python?",
+          "choices": {
+            "A": "Only for configuring pytest",
+            "B": "Defining build system, project metadata, and tool configuration in a single file",
+            "C": "Replacing Python's syntax with TOML",
+            "D": "Managing Docker containers"
+          },
+          "answer": "B",
+          "explanation": "`pyproject.toml` (PEP 518/621) is the modern standard for declaring build backends, dependencies, and tool configs in one place.",
+          "points_value": 15
+        },
+        {
+          "title": "Linting & Formatting",
+          "content_type": "quiz",
+          "body_markdown": "Which tool is a popular Python code formatter that enforces a consistent style?",
+          "choices": {
+            "A": "pytest",
+            "B": "black",
+            "C": "pip",
+            "D": "venv"
+          },
+          "answer": "B",
+          "explanation": "`black` is an opinionated code formatter. It reformats your code to a consistent style with minimal configuration.",
+          "points_value": 15
+        },
+        {
+          "title": "FizzBuzz Challenge",
+          "content_type": "coding_challenge",
+          "body_markdown": "Read an integer `n` from stdin. For each number from 1 to n: print 'FizzBuzz' if divisible by both 3 and 5, 'Fizz' if divisible by 3, 'Buzz' if divisible by 5, otherwise print the number. One output per line.",
+          "code_snippet": "n = int(input())\n# Your solution here\n",
+          "test_cases": [
+            {"input": "15", "expected_output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz"},
+            {"input": "5", "expected_output": "1\n2\nFizz\n4\nBuzz"}
+          ],
+          "points_value": 30
+        }
+      ]
+    }
+  ]
+}

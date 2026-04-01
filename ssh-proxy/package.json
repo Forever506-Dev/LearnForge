@@ -1,0 +1,16 @@
+{
+  "name": "ssh-proxy",
+  "version": "1.0.0",
+  "description": "WebSocket-to-SSH proxy for LearnForge lab terminals",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0",
+    "ssh2": "^1.16.0",
+    "axios": "^1.7.9",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

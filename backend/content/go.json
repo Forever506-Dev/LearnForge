@@ -1,0 +1,44 @@
+{
+  "title": "Go Essentials",
+  "slug": "go",
+  "description": "Learn Go from types and functions through goroutines, channels, interfaces, and modules.",
+  "category": "coding",
+  "difficulty": "easy",
+  "icon": "🐹",
+  "language_key": "go",
+  "modules": [
+    {
+      "title": "Basics & Types",
+      "slug": "go-basics",
+      "description": "Variables, types, control flow, and functions.",
+      "sections": [
+        {"title": "Variable Declaration", "content_type": "quiz", "code_snippet": "x := 42\nfmt.Println(x)", "choices": {"A": "42", "B": "0", "C": "Error", "D": "x"}, "answer": "A", "explanation": "`:=` is Go's short variable declaration. It infers the type (int) and assigns 42.", "points_value": 10},
+        {"title": "Multiple Return Values", "content_type": "quiz", "code_snippet": "func divide(a, b float64) (float64, error) {\n    if b == 0 {\n        return 0, fmt.Errorf(\"division by zero\")\n    }\n    return a / b, nil\n}\nresult, err := divide(10, 2)\nfmt.Println(result, err)", "choices": {"A": "5 <nil>", "B": "5 nil", "C": "5.0 nil", "D": "Error"}, "answer": "A", "explanation": "Go functions can return multiple values. `nil` error prints as `<nil>`, and 10/2 = 5.", "points_value": 10},
+        {"title": "Slices", "content_type": "quiz", "code_snippet": "s := []int{1, 2, 3}\ns = append(s, 4, 5)\nfmt.Println(len(s))", "choices": {"A": "3", "B": "5", "C": "4", "D": "Error"}, "answer": "B", "explanation": "`append` adds elements to a slice. Starting with 3 elements and appending 2 gives length 5.", "points_value": 10},
+        {"title": "Maps", "content_type": "quiz", "code_snippet": "m := map[string]int{\"a\": 1, \"b\": 2}\nval, ok := m[\"c\"]\nfmt.Println(val, ok)", "choices": {"A": "0 false", "B": "nil false", "C": "0 true", "D": "Error"}, "answer": "A", "explanation": "When a key doesn't exist, Go returns the zero value for the type (0 for int) and false for the ok flag.", "points_value": 10}
+      ]
+    },
+    {
+      "title": "Structs & Interfaces",
+      "slug": "go-structs",
+      "description": "Custom types, methods, and interface satisfaction.",
+      "sections": [
+        {"title": "Struct Methods", "content_type": "quiz", "code_snippet": "type Rect struct {\n    Width, Height float64\n}\nfunc (r Rect) Area() float64 {\n    return r.Width * r.Height\n}\nr := Rect{3, 4}\nfmt.Println(r.Area())", "choices": {"A": "7", "B": "12", "C": "3.4", "D": "Error"}, "answer": "B", "explanation": "Methods in Go are functions with a receiver. `Area()` returns 3 * 4 = 12.", "points_value": 15},
+        {"title": "Interface Satisfaction", "content_type": "quiz", "body_markdown": "How does a type satisfy an interface in Go?", "choices": {"A": "By explicitly declaring `implements InterfaceName`", "B": "By implementing all the interface's methods (implicit satisfaction)", "C": "By inheriting from the interface", "D": "By registering with the runtime"}, "answer": "B", "explanation": "Go uses implicit interface satisfaction — if a type has all the methods an interface requires, it satisfies that interface automatically.", "points_value": 15},
+        {"title": "Pointer Receivers", "content_type": "quiz", "code_snippet": "type Counter struct { n int }\nfunc (c *Counter) Inc() { c.n++ }\nc := Counter{0}\nc.Inc()\nc.Inc()\nfmt.Println(c.n)", "choices": {"A": "0", "B": "1", "C": "2", "D": "Error"}, "answer": "C", "explanation": "Pointer receiver `*Counter` modifies the actual struct. Two calls to Inc() increment n from 0 to 2.", "points_value": 15}
+      ]
+    },
+    {
+      "title": "Concurrency",
+      "slug": "go-concurrency",
+      "description": "Goroutines, channels, and select.",
+      "sections": [
+        {"title": "Goroutine Basics", "content_type": "quiz", "body_markdown": "What does `go myFunc()` do in Go?", "choices": {"A": "Runs myFunc synchronously", "B": "Launches myFunc as a lightweight concurrent goroutine", "C": "Creates a new OS thread for myFunc", "D": "Schedules myFunc to run after main exits"}, "answer": "B", "explanation": "The `go` keyword launches a goroutine — a lightweight green thread managed by the Go runtime scheduler.", "points_value": 15},
+        {"title": "Channels", "content_type": "quiz", "code_snippet": "ch := make(chan int)\ngo func() { ch <- 42 }()\nval := <-ch\nfmt.Println(val)", "choices": {"A": "42", "B": "0", "C": "Deadlock", "D": "Error"}, "answer": "A", "explanation": "A goroutine sends 42 into the channel. The main goroutine receives it with `<-ch` and prints 42.", "points_value": 15},
+        {"title": "Buffered Channels", "content_type": "quiz", "code_snippet": "ch := make(chan int, 2)\nch <- 1\nch <- 2\nfmt.Println(<-ch, <-ch)", "choices": {"A": "1 2", "B": "2 1", "C": "Deadlock", "D": "Error"}, "answer": "A", "explanation": "Buffered channels can hold values without a receiver ready. Values come out in FIFO order: 1 then 2.", "points_value": 15},
+        {"title": "Error Handling Pattern", "content_type": "quiz", "body_markdown": "What is Go's idiomatic error handling pattern?", "choices": {"A": "try/catch blocks", "B": "Check returned error values: if err != nil { ... }", "C": "panic/recover for all errors", "D": "Ignore errors and check later"}, "answer": "B", "explanation": "Go uses explicit error returns. The idiomatic pattern is `if err != nil { return err }` after every fallible call.", "points_value": 10},
+        {"title": "Go Modules", "content_type": "quiz", "body_markdown": "What command initializes a new Go module?", "choices": {"A": "go new module", "B": "go mod init <module-path>", "C": "go init", "D": "go create module"}, "answer": "B", "explanation": "`go mod init` creates a go.mod file that tracks your module's path and dependencies.", "points_value": 10}
+      ]
+    }
+  ]
+}

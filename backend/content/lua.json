@@ -1,0 +1,35 @@
+{
+  "title": "Lua Essentials",
+  "slug": "lua",
+  "description": "Learn Lua from tables and functions through metatables, coroutines, and string patterns.",
+  "category": "coding",
+  "difficulty": "easy",
+  "icon": "🌙",
+  "language_key": "lua",
+  "modules": [
+    {
+      "title": "Basics & Tables",
+      "slug": "lua-basics",
+      "description": "Variables, types, tables, and functions.",
+      "sections": [
+        {"title": "Variables & Types", "content_type": "quiz", "code_snippet": "local x = 10\nlocal y = 'hello'\nprint(type(x), type(y))", "choices": {"A": "int string", "B": "number string", "C": "float string", "D": "number str"}, "answer": "B", "explanation": "In Lua, all numbers are of type 'number' (doubles by default) and text is 'string'.", "points_value": 10},
+        {"title": "Table as Array", "content_type": "quiz", "code_snippet": "local t = {10, 20, 30}\nprint(t[1], #t)", "choices": {"A": "10 3", "B": "20 3", "C": "10 2", "D": "Error"}, "answer": "A", "explanation": "Lua arrays are 1-indexed! `t[1]` is 10. `#t` returns the length (3).", "points_value": 10},
+        {"title": "Table as Dictionary", "content_type": "quiz", "code_snippet": "local person = {name = 'Alice', age = 30}\nprint(person.name)", "choices": {"A": "Alice", "B": "name", "C": "nil", "D": "Error"}, "answer": "A", "explanation": "Dot notation `person.name` accesses the 'name' key in the table, returning 'Alice'.", "points_value": 10},
+        {"title": "Nil Check", "content_type": "quiz", "code_snippet": "local t = {a = 1}\nprint(t.b)", "choices": {"A": "0", "B": "nil", "C": "Error", "D": "false"}, "answer": "B", "explanation": "Accessing a non-existent key in a Lua table returns `nil` (not an error).", "points_value": 10},
+        {"title": "Functions as Values", "content_type": "quiz", "code_snippet": "local add = function(a, b) return a + b end\nprint(add(3, 4))", "choices": {"A": "7", "B": "34", "C": "Error", "D": "nil"}, "answer": "A", "explanation": "Functions are first-class values in Lua. The anonymous function is assigned to `add` and called normally.", "points_value": 10}
+      ]
+    },
+    {
+      "title": "Metatables & Coroutines",
+      "slug": "lua-advanced",
+      "description": "Metatables, metamethods, coroutines, and modules.",
+      "sections": [
+        {"title": "Metatables __index", "content_type": "quiz", "code_snippet": "local defaults = {color = 'red'}\nlocal obj = setmetatable({}, {__index = defaults})\nprint(obj.color)", "choices": {"A": "red", "B": "nil", "C": "Error", "D": "defaults"}, "answer": "A", "explanation": "`__index` metamethod is called when a key isn't found. It falls back to `defaults`, finding 'red'.", "points_value": 15},
+        {"title": "Metatables __add", "content_type": "quiz", "code_snippet": "local mt = {__add = function(a, b)\n    return {value = a.value + b.value}\nend}\nlocal x = setmetatable({value = 10}, mt)\nlocal y = setmetatable({value = 20}, mt)\nlocal z = x + y\nprint(z.value)", "choices": {"A": "30", "B": "Error", "C": "nil", "D": "10"}, "answer": "A", "explanation": "The `__add` metamethod defines the `+` operator for tables. 10 + 20 = 30.", "points_value": 15},
+        {"title": "Coroutine Basics", "content_type": "quiz", "code_snippet": "local co = coroutine.create(function()\n    coroutine.yield(1)\n    coroutine.yield(2)\n    return 3\nend)\nlocal _, a = coroutine.resume(co)\nlocal _, b = coroutine.resume(co)\nprint(a, b)", "choices": {"A": "1 2", "B": "1 3", "C": "2 3", "D": "Error"}, "answer": "A", "explanation": "Each `resume` runs until the next `yield`. First resume yields 1, second yields 2.", "points_value": 15},
+        {"title": "String Patterns", "content_type": "quiz", "code_snippet": "local s = 'Hello World 123'\nprint(s:match('%d+'))", "choices": {"A": "Hello", "B": "123", "C": "World", "D": "nil"}, "answer": "B", "explanation": "`%d+` matches one or more digits. The first (and only) digit sequence in the string is '123'.", "points_value": 15},
+        {"title": "Module Pattern", "content_type": "quiz", "body_markdown": "What is the idiomatic way to create a module in Lua?", "choices": {"A": "Use the `module()` function", "B": "Create a local table, add functions to it, then return it", "C": "Use `export` keyword", "D": "Assign to global variables"}, "answer": "B", "explanation": "The modern Lua module pattern is: `local M = {}`, add functions as `M.func = ...`, then `return M`.", "points_value": 15}
+      ]
+    }
+  ]
+}

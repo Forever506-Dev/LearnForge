@@ -1,0 +1,63 @@
+# ── Python ─────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+*.so
+.Python
+.venv/
+venv/
+env/
+
+# ── Node / JavaScript ───────────────────────────────────────────
+node_modules/
+dist/
+.vite/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Environment / Secrets ───────────────────────────────────────
+# NEVER commit .env — copy .env.example and fill in real values
+.env
+.env.*
+!.env.example
+
+# ── Coverage / Test artefacts ───────────────────────────────────
+.coverage
+coverage/
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+
+# ── OS artefacts ────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor / IDE ────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Docker volumes / local data ─────────────────────────────────
+postgres-data/
+redis-data/
+
+# ── Lab VM images (large binary artefacts) ──────────────────────
+labs/parrot-os/*.qcow2
+labs/parrot-os/*.iso
+labs/windows11/*.qcow2
+labs/windows11/*.vars
+labs/kali-linux/*.qcow2
+labs/kali-linux/*.iso
+labs/ubuntu-desktop/*.qcow2
+labs/ubuntu-desktop/*.iso

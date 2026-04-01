@@ -1,0 +1,229 @@
+services:
+  # ── Database ─────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - learnforge_data:/var/lib/postgresql/data
+    networks:
+      - learnforge-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── Cache / Leaderboard ──────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    networks:
+      - learnforge-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── Backend API ──────────────────────────────────────────────
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: learnforge/api
+    entrypoint: ["/app/entrypoint.sh"]
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    ports:
+      - "8002:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - learnforge-net
+
+  # ── Frontend ─────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: learnforge/frontend
+    ports:
+      - "5174:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - api
+    networks:
+      - learnforge-net
+
+  # ── Nginx Reverse Proxy ─────────────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - api
+      - frontend
+      - ssh-proxy
+    networks:
+      - learnforge-net
+
+  # ── SSH WebSocket Proxy ──────────────────────────────────────
+  ssh-proxy:
+    build: ./ssh-proxy
+    image: learnforge/ssh-proxy
+    restart: unless-stopped
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - BACKEND_URL=http://api:8000
+      - PORT=2222
+    networks:
+      - learnforge-net
+    depends_on:
+      - api
+
+  # ── Build Vulnerable SSH Lab Image ───────────────────────────
+  vuln-ssh-build:
+    build:
+      context: ./labs/vuln-ssh
+      dockerfile: Dockerfile
+    image: learnforge/vuln-ssh:latest
+    entrypoint: ["echo", "Image built successfully"]
+    restart: "no"
+    networks:
+      - learnforge-net
+
+  # ── Build ShellShock Lab Image ───────────────────────────────
+  shellshock-build:
+    build:
+      context: ./labs/shellshock
+      dockerfile: Dockerfile
+    image: learnforge/shellshock:latest
+    entrypoint: ["echo", "Image built successfully"]
+    restart: "no"
+    networks:
+      - learnforge-net
+
+  # ── Build DVWA Lab Image ─────────────────────────────────────
+  dvwa-build:
+    build:
+      context: ./labs/dvwa
+      dockerfile: Dockerfile
+    image: learnforge/dvwa:latest
+    entrypoint: ["echo", "Image built successfully"]
+    restart: "no"
+    networks:
+      - learnforge-net
+
+  # ── Build Official Parrot Security 7.1 VM Image ─────────────
+  # Downloads Parrot-security-7.1_amd64.qcow2 (~11.7 GB) at build time.
+  # Run manually once: docker compose --profile parrot-os build parrot-os-build
+  parrot-os-build:
+    profiles: [parrot-os]
+    build:
+      context: ./labs/parrot-os
+      dockerfile: Dockerfile
+    image: learnforge/parrot-os:latest
+    entrypoint: ["echo", "Image built successfully"]
+    restart: "no"
+    networks:
+      - learnforge-net
+
+  # ── Build Kali Linux VM Image ─────────────────────────────
+  kali-linux-build:
+    build:
+      context: ./labs/kali-linux
+      dockerfile: Dockerfile
+    image: learnforge/kali-linux:latest
+    entrypoint: ["echo", "Image built successfully"]
+    restart: "no"
+    networks:
+      - learnforge-net
+
+  # ── Build Ubuntu Desktop VM Image ────────────────────────
+  ubuntu-desktop-build:
+    build:
+      context: ./labs/ubuntu-desktop
+      dockerfile: Dockerfile
+    image: learnforge/ubuntu-desktop:latest
+    entrypoint: ["echo", "Image built successfully"]
+    restart: "no"
+    networks:
+      - learnforge-net
+
+  # ── Build Windows 11 VM Image ─────────────────────────────
+  # Requires KVM on host: --device /dev/kvm --cap-add NET_ADMIN
+  # Requires windows11-base.qcow2 + windows11-base.vars in labs/windows11/
+  # Run manually: docker compose --profile windows11 build windows11-build
+  windows11-build:
+    profiles: [windows11]
+    build:
+      context: ./labs/windows11
+      dockerfile: Dockerfile
+    image: learnforge/windows11:latest
+    entrypoint: ["echo", "Image built successfully"]
+    restart: "no"
+    networks:
+      - learnforge-net
+
+  # ── Piston Code Runner ──────────────────────────────────────
+  piston:
+    image: ghcr.io/engineer-man/piston
+    privileged: true
+    volumes:
+      - piston_data:/piston
+    networks:
+      - learnforge-net
+    tmpfs:
+      - /tmp:exec
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:2000/api/v2/runtimes',(r)=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))\""]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 15s
+
+  # ── Piston Runtime Installer (runs once) ─────────────────────
+  piston-init:
+    image: curlimages/curl:latest
+    depends_on:
+      piston:
+        condition: service_healthy
+    networks:
+      - learnforge-net
+    restart: "no"
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        echo "📦 Installing Piston runtimes..."
+        install_pkg() {
+          echo "  → $$1 $$2"
+          curl -sf -X POST http://piston:2000/api/v2/packages -H 'Content-Type: application/json' -d "{\"language\":\"$$1\",\"version\":\"$$2\"}" || echo "  ⚠ Failed $$1"
+        }
+        install_pkg python    3.10.0
+        install_pkg gcc       10.2.0
+        install_pkg go        1.16.2
+        install_pkg rust      1.68.2
+        install_pkg lua       5.4.4
+        install_pkg node      15.10.0
+        echo "✅ All runtimes installed."
+
+volumes:
+  learnforge_data:
+  piston_data:
+
+networks:
+  learnforge-net:
+    driver: bridge

@@ -1,0 +1,54 @@
+{
+  "title": "C++ Foundations",
+  "slug": "cpp",
+  "description": "Learn C++ from basic syntax through pointers, OOP, STL containers, and templates.",
+  "category": "coding",
+  "difficulty": "medium",
+  "icon": "⚙️",
+  "language_key": "cpp",
+  "modules": [
+    {
+      "title": "Basics & Syntax",
+      "slug": "cpp-basics",
+      "description": "Types, variables, control flow, and I/O.",
+      "sections": [
+        {"title": "Data Types", "content_type": "quiz", "code_snippet": "#include <iostream>\nint main() {\n    int x = 7;\n    double y = 3.14;\n    std::cout << sizeof(x) << \" \" << sizeof(y);\n}", "body_markdown": "On most 64-bit systems, what is the typical output?", "choices": {"A": "4 8", "B": "8 8", "C": "4 4", "D": "2 4"}, "answer": "A", "explanation": "`int` is typically 4 bytes and `double` is 8 bytes on most modern systems.", "points_value": 10},
+        {"title": "References vs Values", "content_type": "quiz", "code_snippet": "void addOne(int& x) { x += 1; }\nint main() {\n    int n = 5;\n    addOne(n);\n    std::cout << n;\n}", "choices": {"A": "5", "B": "6", "C": "Error", "D": "Undefined"}, "answer": "B", "explanation": "The `&` makes `x` a reference to `n`. Modifying `x` directly modifies `n`, so n becomes 6.", "points_value": 10},
+        {"title": "For Loop", "content_type": "quiz", "code_snippet": "int sum = 0;\nfor (int i = 0; i < 5; i++) sum += i;\nstd::cout << sum;", "choices": {"A": "15", "B": "10", "C": "5", "D": "0"}, "answer": "B", "explanation": "Loop iterates i=0,1,2,3,4. Sum = 0+1+2+3+4 = 10.", "points_value": 10},
+        {"title": "Switch Statement", "content_type": "quiz", "code_snippet": "int x = 2;\nswitch(x) {\n    case 1: std::cout << \"A\"; break;\n    case 2: std::cout << \"B\"; break;\n    default: std::cout << \"C\";\n}", "choices": {"A": "A", "B": "B", "C": "C", "D": "BC"}, "answer": "B", "explanation": "`x=2` matches `case 2`, prints 'B', then `break` exits the switch.", "points_value": 10}
+      ]
+    },
+    {
+      "title": "Pointers & Memory",
+      "slug": "cpp-pointers",
+      "description": "Pointers, dynamic allocation, and memory management.",
+      "sections": [
+        {"title": "Pointer Basics", "content_type": "quiz", "code_snippet": "int x = 42;\nint* p = &x;\nstd::cout << *p;", "choices": {"A": "42", "B": "Address of x", "C": "0", "D": "Error"}, "answer": "A", "explanation": "`&x` gets the address, stored in pointer `p`. `*p` dereferences the pointer, giving the value 42.", "points_value": 15},
+        {"title": "new and delete", "content_type": "quiz", "code_snippet": "int* arr = new int[3]{10, 20, 30};\nstd::cout << arr[1];\ndelete[] arr;", "choices": {"A": "10", "B": "20", "C": "30", "D": "Error"}, "answer": "B", "explanation": "`new int[3]` allocates a heap array. `arr[1]` accesses index 1 (value 20). `delete[]` frees the array.", "points_value": 15},
+        {"title": "Smart Pointers", "content_type": "quiz", "body_markdown": "Which smart pointer allows exactly ONE owner of a heap-allocated object?", "choices": {"A": "std::shared_ptr", "B": "std::unique_ptr", "C": "std::weak_ptr", "D": "std::auto_ptr"}, "answer": "B", "explanation": "`unique_ptr` has exclusive ownership — it cannot be copied, only moved. It auto-deletes when it goes out of scope.", "points_value": 15},
+        {"title": "Null Pointer", "content_type": "quiz", "code_snippet": "int* p = nullptr;\nif (p) std::cout << \"valid\";\nelse std::cout << \"null\";", "choices": {"A": "valid", "B": "null", "C": "Error", "D": "Undefined"}, "answer": "B", "explanation": "`nullptr` evaluates to false in a boolean context, so the else branch prints 'null'.", "points_value": 15}
+      ]
+    },
+    {
+      "title": "OOP in C++",
+      "slug": "cpp-oop",
+      "description": "Classes, inheritance, polymorphism, and virtual functions.",
+      "sections": [
+        {"title": "Class Basics", "content_type": "quiz", "code_snippet": "class Dog {\npublic:\n    std::string name;\n    Dog(std::string n) : name(n) {}\n};\nDog d(\"Rex\");\nstd::cout << d.name;", "choices": {"A": "Rex", "B": "Dog", "C": "Error", "D": ""}, "answer": "A", "explanation": "The constructor initializer list sets `name` to 'Rex'. Public access allows direct printing.", "points_value": 15},
+        {"title": "Virtual Functions", "content_type": "quiz", "code_snippet": "class Base {\npublic:\n    virtual std::string speak() { return \"Base\"; }\n};\nclass Child : public Base {\npublic:\n    std::string speak() override { return \"Child\"; }\n};\nBase* b = new Child();\nstd::cout << b->speak();", "choices": {"A": "Base", "B": "Child", "C": "Error", "D": "Undefined"}, "answer": "B", "explanation": "`virtual` enables runtime polymorphism. The actual object is Child, so Child::speak() is called.", "points_value": 20},
+        {"title": "Access Specifiers", "content_type": "quiz", "body_markdown": "Which access specifier allows member access from derived classes but NOT from outside code?", "choices": {"A": "public", "B": "private", "C": "protected", "D": "friend"}, "answer": "C", "explanation": "`protected` members are accessible within the class and its derived classes, but not from external code.", "points_value": 15}
+      ]
+    },
+    {
+      "title": "STL & Templates",
+      "slug": "cpp-stl",
+      "description": "Standard Template Library containers and basic templates.",
+      "sections": [
+        {"title": "Vector Basics", "content_type": "quiz", "code_snippet": "#include <vector>\nstd::vector<int> v = {1, 2, 3};\nv.push_back(4);\nstd::cout << v.size();", "choices": {"A": "3", "B": "4", "C": "5", "D": "Error"}, "answer": "B", "explanation": "Vector starts with 3 elements, `push_back(4)` adds one more, giving size 4.", "points_value": 15},
+        {"title": "Map Lookup", "content_type": "quiz", "code_snippet": "#include <map>\nstd::map<std::string, int> m;\nm[\"a\"] = 1;\nm[\"b\"] = 2;\nstd::cout << m[\"a\"];", "choices": {"A": "1", "B": "2", "C": "0", "D": "Error"}, "answer": "A", "explanation": "`std::map` stores sorted key-value pairs. `m[\"a\"]` retrieves the value 1.", "points_value": 15},
+        {"title": "Function Templates", "content_type": "quiz", "code_snippet": "template<typename T>\nT add(T a, T b) { return a + b; }\n\nstd::cout << add(3, 4) << \" \" << add(1.5, 2.5);", "choices": {"A": "7 4.0", "B": "7 4", "C": "3 1.5", "D": "Error"}, "answer": "A", "explanation": "The compiler generates two versions: `add<int>` returning 7 and `add<double>` returning 4.0.", "points_value": 20},
+        {"title": "Range-Based For", "content_type": "quiz", "code_snippet": "std::vector<int> v = {10, 20, 30};\nint sum = 0;\nfor (auto x : v) sum += x;\nstd::cout << sum;", "choices": {"A": "60", "B": "30", "C": "10", "D": "Error"}, "answer": "A", "explanation": "Range-based for iterates all elements: 10+20+30 = 60.", "points_value": 15}
+      ]
+    }
+  ]
+}
