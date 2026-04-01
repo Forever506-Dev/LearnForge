@@ -565,24 +565,13 @@ def _provision_sync(lab: Lab, template: LabTemplate) -> dict:
             pass
 
 
-def _check_container_port(container, port: int) -> tuple[bool, str]:
+def _check_container_port(host: str, port: int) -> tuple[bool, str]:
+    """TCP reachability check from the API container — no tooling required inside the lab container."""
+    import socket as _socket
     try:
-        exit_code, output = container.exec_run(
-            (
-                f"sh -c 'nc -z 127.0.0.1 {port} 2>/dev/null || "
-                f"bash -c \"cat < /dev/null > /dev/tcp/127.0.0.1/{port}\" 2>/dev/null'"
-            ),
-            demux=True,
-        )
-        if exit_code == 0:
+        with _socket.create_connection((host, port), timeout=2):
             return True, "open"
-
-        stderr = b""
-        if output is not None:
-            _, stderr = output
-        detail = stderr.decode("utf-8", errors="replace").strip() if stderr else "closed"
-        return False, detail
-    except Exception as e:
+    except (OSError, ConnectionRefusedError) as e:
         return False, str(e)
 
 
@@ -643,12 +632,12 @@ def _wait_for_port(
         if last_status in {"exited", "dead"}:
             break
 
-        is_ready, last_port_detail = _check_container_port(container, port)
+        is_ready, last_port_detail = _check_container_port(host, port)
         companion_ready = True
         last_companion_details = []
         if is_ready and companion_ports:
             for companion_port in companion_ports:
-                companion_ready, companion_detail = _check_container_port(container, companion_port)
+                companion_ready, companion_detail = _check_container_port(host, companion_port)
                 last_companion_details.append(f"{companion_port}={companion_detail}")
                 if not companion_ready:
                     break

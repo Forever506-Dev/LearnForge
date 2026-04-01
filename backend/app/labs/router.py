@@ -564,6 +564,11 @@ def _novnc_custom_html(lab_id: uuid.UUID, token: str) -> str:
   <style>
     html, body {{ margin: 0; padding: 0; background: #1a1a1a; overflow: hidden; }}
     #screen {{ width: 100vw; height: 100vh; }}
+    /* Force the noVNC canvas to fill the viewport on VMs whose VNC server
+       does not honour DesktopSize resize requests (e.g. QEMU VGA=std).
+       For VMs that do resize (virtio/QXL), the canvas already matches the
+       viewport so this has no visible effect on them. */
+    #screen canvas {{ display: block !important; width: 100% !important; height: 100% !important; }}
     #status-overlay {{
       position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
       background: rgba(0,0,0,0.65); color: #e2e8f0; font: 13px/1.4 monospace;
