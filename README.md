@@ -67,7 +67,7 @@ No VM setup required. No local tooling. Everything runs in Docker.
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│                        LearnForge Platform                        │
+│                        LearnForge Platform                       │
 ├──────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │  ┌────────────────────────────────────────────────────────────┐  │
@@ -248,7 +248,7 @@ LearnForge/
 ### 1️⃣ Clone & Configure
 
 ```bash
-git clone https://github.com/TheLastWorld_Owner/LearnForge.git
+git clone https://github.com/Forever-506-Dev/LearnForge.git
 cd LearnForge
 
 # Copy the environment template and fill in your values
