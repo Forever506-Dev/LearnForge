@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚔️ LordForge
+# ⚔️ LearnForge
 
 ### Hands-On Cybersecurity Training Platform
 
@@ -36,7 +36,7 @@
 
 ## 📖 Overview
 
-LordForge is an **open-source, hands-on cybersecurity training platform** that spins up real, isolated Docker-based lab environments directly in the browser. Students learn by doing — exploiting intentionally vulnerable machines, completing coding challenges across multiple languages, and advancing through structured learning paths.
+LearnForge is an **open-source, hands-on cybersecurity training platform** that spins up real, isolated Docker-based lab environments directly in the browser. Students learn by doing — exploiting intentionally vulnerable machines, completing coding challenges across multiple languages, and advancing through structured learning paths.
 
 No VM setup required. No local tooling. Everything runs in Docker.
 
@@ -67,7 +67,7 @@ No VM setup required. No local tooling. Everything runs in Docker.
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│                        LordForge Platform                        │
+│                        LearnForge Platform                        │
 ├──────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │  ┌────────────────────────────────────────────────────────────┐  │
@@ -121,7 +121,7 @@ No VM setup required. No local tooling. Everything runs in Docker.
 
 ## 🧪 Lab Environments
 
-LordForge ships with a collection of intentionally vulnerable environments for hands-on security training:
+LearnForge ships with a collection of intentionally vulnerable environments for hands-on security training:
 
 | Lab | Protocol | Description |
 |:----|:---------|:------------|
@@ -144,7 +144,7 @@ LordForge ships with a collection of intentionally vulnerable environments for h
 ## 📁 Project Structure
 
 ```
-lordforge/
+LearnForge/
 │
 ├── 🐍 backend/                  Python FastAPI backend
 │   ├── app/
@@ -248,8 +248,8 @@ lordforge/
 ### 1️⃣ Clone & Configure
 
 ```bash
-git clone https://github.com/TheLastWorld_Owner/LordForge.git
-cd LordForge
+git clone https://github.com/TheLastWorld_Owner/LearnForge.git
+cd LearnForge
 
 # Copy the environment template and fill in your values
 cp .env.example .env
@@ -391,7 +391,7 @@ docker compose --profile windows11 build windows11-build
 
 ## 🔐 Security Design
 
-LordForge is built with security-first principles throughout the stack:
+LearnForge is built with security-first principles throughout the stack:
 
 | Area | Implementation |
 |:-----|:---------------|
@@ -417,7 +417,7 @@ LordForge is built with security-first principles throughout the stack:
 
 ## 🗺️ Learning Content
 
-LordForge organises content into **Paths → Modules → Sections**:
+LearnForge organises content into **Paths → Modules → Sections**:
 
 ```
 Path (e.g. "Web Security Fundamentals")
