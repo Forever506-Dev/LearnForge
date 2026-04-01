@@ -72,6 +72,10 @@ class RuntimeProfile:
     readiness_companion_ports: tuple[int, ...] = ()
     cap_add: tuple[str, ...] = ()
     devices: tuple[DeviceRequest, ...] = ()
+    # When True, a named Docker volume is created and mounted at /lab-storage.
+    # Required for QEMU-based VMs: dockurr/windows and qemux/qemu refuse to
+    # write disk images to OverlayFS (the default container filesystem).
+    requires_storage_volume: bool = False
 
     @property
     def cpu_quota(self) -> int:
@@ -154,6 +158,7 @@ KVM_QEMU_RUNTIME_PROFILE: Final[RuntimeProfile] = RuntimeProfile(
         DeviceRequest(KVM_DEVICE_PATH),
         DeviceRequest(TUN_DEVICE_PATH),
     ),
+    requires_storage_volume=True,
 )
 
 WINDOWS_KVM_RUNTIME_PROFILE: Final[RuntimeProfile] = RuntimeProfile(
@@ -170,6 +175,7 @@ WINDOWS_KVM_RUNTIME_PROFILE: Final[RuntimeProfile] = RuntimeProfile(
         DeviceRequest(KVM_DEVICE_PATH),
         DeviceRequest(TUN_DEVICE_PATH),
     ),
+    requires_storage_volume=True,
 )
 
 PARROT_VM_RUNTIME_ENV: Final[tuple[tuple[str, str], ...]] = (
@@ -253,6 +259,21 @@ def _cleanup_failed_container(container) -> None:
         pass
     except Exception as e:
         logger.warning("Error cleaning up failed container: %s", e)
+
+
+def _lab_storage_volume_name(lab_id_hex: str) -> str:
+    return f"lab-storage-{lab_id_hex[:12]}"
+
+
+def _remove_storage_volume(client: docker.DockerClient, lab_id_hex: str) -> None:
+    name = _lab_storage_volume_name(lab_id_hex)
+    try:
+        client.volumes.get(name).remove(force=True)
+        logger.debug("Removed storage volume %s", name)
+    except docker.errors.NotFound:
+        pass
+    except Exception as e:
+        logger.warning("Error removing storage volume %s: %s", name, e)
 
 
 def _remove_network(network) -> None:
@@ -381,6 +402,9 @@ def _build_container_run_kwargs(
         run_kwargs["cap_add"] = list(profile.cap_add)
     if profile.devices:
         run_kwargs["devices"] = [device.to_docker_mapping() for device in profile.devices]
+    if profile.requires_storage_volume:
+        volume_name = _lab_storage_volume_name(lab.id.hex)
+        run_kwargs["volumes"] = {volume_name: {"bind": "/lab-storage", "mode": "rw"}}
     runtime_env = get_runtime_environment(template)
     if runtime_env:
         run_kwargs["environment"] = runtime_env
@@ -533,6 +557,11 @@ def _provision_sync(lab: Lab, template: LabTemplate) -> dict:
 
         report(60, "Starting container…")
         _validate_runtime_prerequisites(client, template, profile)
+        if profile.requires_storage_volume:
+            client.volumes.create(
+                name=_lab_storage_volume_name(lab.id.hex),
+                labels={"learnforge": "lab-storage", "lab_id": str(lab.id)},
+            )
         container = _start_lab_container(client, lab, template, network_name, profile)
 
         report(75, "Container started — configuring…")
@@ -557,6 +586,8 @@ def _provision_sync(lab: Lab, template: LabTemplate) -> dict:
     except Exception:
         _cleanup_failed_container(container)
         _remove_network(network)
+        if profile.requires_storage_volume:
+            _remove_storage_volume(client, lab.id.hex)
         raise
     finally:
         try:
@@ -724,3 +755,6 @@ def _stop_sync(lab: Lab, template: LabTemplate | None) -> None:
             pass
         except Exception as e:
             logger.warning("Error removing network: %s", e)
+
+    if profile.requires_storage_volume:
+        _remove_storage_volume(client, lab.id.hex)
