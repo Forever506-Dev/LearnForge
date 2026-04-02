@@ -30,6 +30,20 @@
 
 <br/>
 
+<div align="center">
+
+<a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID">
+  <img src="https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg" alt="Watch LearnForge Demo on YouTube" width="700" />
+</a>
+
+<br/>
+
+[![▶ Watch Full Demo on YouTube](https://img.shields.io/badge/▶%20Watch%20Full%20Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+
+</div>
+
+<br/>
+
 ![LearnForge Platform](https://raw.githubusercontent.com/Forever506-Dev/LearnForge/master/LearnForge.png)
 
 <br/>
