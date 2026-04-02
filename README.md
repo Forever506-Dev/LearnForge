@@ -30,7 +30,7 @@
 
 <br/>
 
-![LearnForge Platform](https://raw.githubusercontent.com/Forever506-Dev/LearnForge/main/LearnForge.png)
+![LearnForge Platform](https://raw.githubusercontent.com/Forever506-Dev/LearnForge/master/LearnForge.png)
 
 <br/>
 
