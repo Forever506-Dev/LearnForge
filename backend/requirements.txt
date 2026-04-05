@@ -18,7 +18,7 @@ slowapi==0.1.9
 pycryptodome==3.21.0
 
 # ── Cache ──
-redis[hiredis]==5.2.1
+redis[hiredis]==7.4.0
 
 # ── HTTP Client (for Piston) ──
 httpx==0.28.1
