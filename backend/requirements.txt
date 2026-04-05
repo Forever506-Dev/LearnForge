@@ -1,17 +1,17 @@
 # ── Web Framework ──
-fastapi==0.115.6
+fastapi==0.135.3
 uvicorn[standard]==0.34.0
 
 # ── Database ──
-sqlalchemy[asyncio]==2.0.36
-asyncpg==0.30.0
+sqlalchemy[asyncio]==2.0.49
+asyncpg==0.31.0
 psycopg2-binary==2.9.10
-alembic==1.14.1
+alembic==1.18.4
 greenlet==3.1.1
 
 # ── Auth ──
 python-jose[cryptography]==3.4.0
-argon2-cffi==23.1.0
+argon2-cffi==25.1.0
 
 # ── Security ──
 slowapi==0.1.9
@@ -27,13 +27,13 @@ httpx==0.28.1
 docker==7.1.0
 
 # ── Settings ──
-pydantic-settings==2.7.1
+pydantic-settings==2.13.1
 
 # ── Validation ──
 email-validator>=2.0.0
 
 # ── Utilities ──
-python-multipart==0.0.22
+python-multipart==0.0.24
 
 # ── SSE ──
 sse-starlette==2.1.0
