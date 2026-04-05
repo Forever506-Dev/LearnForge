@@ -1318,7 +1318,6 @@ function XtermTerminal({ labId, accessToken }: XtermTerminalProps) {
         fontSize: 14,
         cursorBlink: true,
         scrollback: 1000,
-        allowTransparency: true,
       });
 
       const fitAddon = new FitAddon();
