@@ -39,4 +39,4 @@ python-multipart==0.0.24
 sse-starlette==3.3.4
 
 # ── WebSocket proxy (noVNC) ──
-websockets>=12.0,<14.0
+websockets>=12.0,<17.0
