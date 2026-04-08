@@ -15,15 +15,15 @@ argon2-cffi==25.1.0
 
 # ── Security dependency pins (CVE fixes) ──
 # pyjwt >= 2.12.0 — CVE-2026-32597: JWT 'crit' header bypass (HIGH)
-pyjwt>=2.12.0
+pyjwt>=2.12.1
 # cryptography >= 46.0.6 — CVE-2024-12797, CVE-2026-26007, CVE-2026-34073 (OpenSSL + EC point validation)
-cryptography>=46.0.6
+cryptography>=46.0.7
 # wheel >= 0.46.2 — CVE-2026-24049: path traversal in wheel unpack (HIGH)
 wheel>=0.46.2
 # urllib3 >= 2.6.3 — CVE-2025-50181/82, multiple redirect/decompression vulns
 urllib3>=2.6.3
 # requests >= 2.33.0 — CVE-2024-47081, CVE-2026-25645: .netrc leak, temp file
-requests>=2.33.0
+requests>=2.33.1
 
 # ── Security ──
 slowapi==0.1.9
