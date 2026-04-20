@@ -10,7 +10,7 @@
   "dependencies": {
     "ws": "^8.18.0",
     "ssh2": "^1.16.0",
-    "axios": "^1.14.0",
+    "axios": "^1.15.1",
     "jsonwebtoken": "^9.0.2"
   }
 }
