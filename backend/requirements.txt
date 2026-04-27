@@ -45,7 +45,7 @@ pydantic-settings==2.13.1
 email-validator>=2.0.0
 
 # ── Utilities ──
-python-multipart==0.0.24
+python-multipart==0.0.27
 
 # ── SSE ──
 sse-starlette==3.3.4
