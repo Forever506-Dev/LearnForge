@@ -39,7 +39,7 @@ httpx==0.28.1
 docker==7.1.0
 
 # ── Settings ──
-pydantic-settings==2.13.1
+pydantic-settings==2.14.0
 
 # ── Validation ──
 email-validator>=2.0.0
